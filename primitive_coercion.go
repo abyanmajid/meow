@@ -10,9 +10,9 @@ type PrimitiveCoerce struct{}
 
 var Coerce = PrimitiveCoerce{}
 
-func (c *PrimitiveCoerce) String(varName string) *MeowSchema {
-	return &MeowSchema{
-		Parse: func(input any) error {
+func (c *PrimitiveCoerce) String(varName string) *MeowSchema[string] {
+	return &MeowSchema[string]{
+		Parse: func(input any) (string, error) {
 			var str string
 			switch v := input.(type) {
 			case string:
@@ -22,13 +22,10 @@ func (c *PrimitiveCoerce) String(varName string) *MeowSchema {
 			case nil:
 				str = "null"
 			default:
-				errMsg := fmt.Sprintf("[%s]: cannot coerce '%s' of type '%s' into a string.", varName, input, reflect.TypeOf(input))
-				return errors.New(errMsg)
+				errMsg := fmt.Sprintf("[%s]: cannot coerce '%v' of type '%s' into a string.", varName, input, reflect.TypeOf(input))
+				return "", errors.New(errMsg)
 			}
-			if reflect.TypeOf(str).Kind() != reflect.String {
-				return fmt.Errorf("input is not a string: %v", input)
-			}
-			return nil
+			return str, nil
 		},
 	}
 }

@@ -1,6 +1,8 @@
 package meow
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestCoerceStringValid(t *testing.T) {
 	schema := Coerce.String("schema")
@@ -16,13 +18,37 @@ func TestCoerceStringValid(t *testing.T) {
 		int64(1):           "1",
 		true:               "true",
 		false:              "false",
-		nil:                "nil",
+		nil:                "null",
 	}
 
-	for in, _ := range testCases {
-		err := schema.Parse(in)
+	for in, expected := range testCases {
+		res, err := schema.Parse(in)
+
 		if err != nil {
-			t.Errorf("For a valid input '%v', expected no error, but got %v", in, err)
+			t.Errorf("For input '%v', expected no error, but got %v", in, err)
+			continue
+
+		}
+
+		if res != expected {
+			t.Errorf("For input '%v', expected '%v', but got '%v'", in, expected, res)
+		}
+	}
+}
+
+func TestCoerceStringInvalid(t *testing.T) {
+	schema := Coerce.String("schema")
+
+	testCases := []any{
+		struct{}{},
+		[]int{1, 2, 3},
+		map[string]int{},
+	}
+
+	for _, input := range testCases {
+		_, err := schema.Parse(input)
+		if err == nil {
+			t.Errorf("For input '%v', expected an error, but got none", input)
 		}
 	}
 }
