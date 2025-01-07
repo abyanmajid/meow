@@ -16,6 +16,10 @@ type MeowSchema[T any] struct {
 	Parse func(input any) *MeowResult[T]
 }
 
+type MeowNonPrimitiveSchema[T any] struct {
+	Parse func(input T) *MeowResult[T]
+}
+
 func String(path string) *MeowSchema[string] {
 	return &MeowSchema[string]{
 		Parse: func(input any) *MeowResult[string] {
