@@ -73,3 +73,36 @@ func Date(varName string) *MeowSchema {
 		},
 	}
 }
+
+func Nil(varName string) *MeowSchema {
+	return &MeowSchema{
+		Parse: func(input any) error {
+			if input != nil {
+				errMsg := fmt.Sprintf("[%s]: '%v' is not nil.", varName, input)
+				return errors.New(errMsg)
+			}
+			return nil
+		},
+	}
+}
+
+func Any(varName string) *MeowSchema {
+	return &MeowSchema{
+		Parse: func(input any) error {
+			if input == nil {
+				errMsg := fmt.Sprintf("[%s]: input is nil.", varName)
+				return errors.New(errMsg)
+			}
+			return nil
+		},
+	}
+}
+
+func Never(varName string) *MeowSchema {
+	return &MeowSchema{
+		Parse: func(input any) error {
+			errMsg := fmt.Sprintf("[%s]: input is never allowed.", varName)
+			return errors.New(errMsg)
+		},
+	}
+}

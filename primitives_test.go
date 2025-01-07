@@ -106,3 +106,65 @@ func TestDateInvalid(t *testing.T) {
 		}
 	}
 }
+func TestNilValid(t *testing.T) {
+	schema := Nil("schema")
+
+	inputs := []any{nil}
+
+	for _, in := range inputs {
+		err := schema.Parse(in)
+		if err != nil {
+			t.Errorf("For a valid input '%v', expected no error, but got %v", in, err)
+		}
+	}
+}
+
+func TestNilInvalid(t *testing.T) {
+	schema := Nil("schema")
+
+	inputs := []any{"Hello", 123, true, false, math.NaN(), time.Now()}
+
+	for _, in := range inputs {
+		err := schema.Parse(in)
+		if err == nil {
+			t.Errorf("For an invalid input '%v', expected an error, but got none instead.", in)
+		}
+	}
+}
+func TestAnyValid(t *testing.T) {
+	schema := Any("schema")
+
+	inputs := []any{"Hello", 123, true, false, math.NaN(), time.Now(), struct{}{}}
+
+	for _, in := range inputs {
+		err := schema.Parse(in)
+		if err != nil {
+			t.Errorf("For a valid input '%v', expected no error, but got %v", in, err)
+		}
+	}
+}
+
+func TestAnyInvalid(t *testing.T) {
+	schema := Any("schema")
+
+	inputs := []any{nil}
+
+	for _, in := range inputs {
+		err := schema.Parse(in)
+		if err == nil {
+			t.Errorf("For an invalid input '%v', expected an error, but got none instead.", in)
+		}
+	}
+}
+func TestNever(t *testing.T) {
+	schema := Never("schema")
+
+	inputs := []any{"Hello", 123, true, false, nil, math.NaN(), time.Now(), struct{}{}}
+
+	for _, in := range inputs {
+		err := schema.Parse(in)
+		if err == nil {
+			t.Errorf("For an input '%v', expected an error, but got none instead.", in)
+		}
+	}
+}
