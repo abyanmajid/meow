@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"reflect"
+	"time"
 )
 
 type MeowSchema struct {
@@ -39,16 +40,35 @@ func Number(varName string) *MeowSchema {
 				return errors.New(errMsg)
 			}
 
-			if reflect.TypeOf(floatInput).Kind() != reflect.Float64 {
-				errMsg := fmt.Sprintf("[%s]: '%v' is not a number.", varName, input)
-				return errors.New(errMsg)
-			}
-
 			if math.IsNaN(floatInput) {
 				errMsg := fmt.Sprintf("[%s]: '%v' is NaN.", varName, input)
 				return errors.New(errMsg)
 			}
 
+			return nil
+		},
+	}
+}
+
+func Boolean(varName string) *MeowSchema {
+	return &MeowSchema{
+		Parse: func(input any) error {
+			if input == nil || reflect.TypeOf(input).Kind() != reflect.Bool {
+				errMsg := fmt.Sprintf("[%s]: '%s' is not a string.", varName, input)
+				return errors.New(errMsg)
+			}
+			return nil
+		},
+	}
+}
+
+func Date(varName string) *MeowSchema {
+	return &MeowSchema{
+		Parse: func(input any) error {
+			if input == nil || reflect.TypeOf(input).Kind() != reflect.Struct || reflect.TypeOf(input) != reflect.TypeOf(time.Time{}) {
+				errMsg := fmt.Sprintf("[%s]: '%v' is not a valid date.", varName, input)
+				return errors.New(errMsg)
+			}
 			return nil
 		},
 	}
