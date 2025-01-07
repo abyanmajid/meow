@@ -1,17 +1,25 @@
 package meow
 
 import (
+	"errors"
 	"fmt"
 	"reflect"
 )
 
-func Literal[T any](value T) *MeowSchema[T] {
+func Literal[T any](path string, value T) *MeowSchema[T] {
 	return &MeowSchema[T]{
-		Parse: func(input any) (T, error) {
+		Parse: func(input any) *MeowResult[T] {
 			if reflect.DeepEqual(input, value) {
-				return value, nil
+				return &MeowResult[T]{
+					Path:  path,
+					Value: value,
+				}
 			}
-			return value, fmt.Errorf("input '%v' does not match the literal value '%v'", input, value)
+			errMsg := fmt.Sprintf("input does not match the literal value '%v'", value)
+			return &MeowResult[T]{
+				Path:  path,
+				Error: errors.New(errMsg),
+			}
 		},
 	}
 }

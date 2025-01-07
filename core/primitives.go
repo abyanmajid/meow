@@ -1,138 +1,167 @@
 package meow
 
 import (
-	"errors"
-	"fmt"
 	"math"
 	"reflect"
 	"time"
 )
 
-func String() *MeowSchema[string] {
+type MeowResult[T any] struct {
+	Path  string
+	Error error
+	Value T
+}
+
+type MeowSchema[T any] struct {
+	Parse func(input any) *MeowResult[T]
+}
+
+func String(path string) *MeowSchema[string] {
 	return &MeowSchema[string]{
-		Parse: func(input any) (string, error) {
+		Parse: func(input any) *MeowResult[string] {
 			if input == nil || reflect.TypeOf(input).Kind() != reflect.String {
-				return "", errors.New("not a valid string")
+				return &MeowResult[string]{
+					Path:  path,
+					Error: ErrInvalidString,
+				}
 			}
-			return input.(string), nil
+			return &MeowResult[string]{
+				Path:  path,
+				Error: nil,
+				Value: input.(string),
+			}
 		},
 	}
 }
 
-func Integer() *MeowSchema[int] {
+func Integer(path string) *MeowSchema[int] {
 	return &MeowSchema[int]{
-		Parse: func(input any) (int, error) {
-			var res int
-
-			switch v := input.(type) {
-			case int:
-				res = v
-			case int8:
-				res = int(v)
-			case int16:
-				res = int(v)
-			case int32:
-				res = int(v)
-			case int64:
-				res = int(v)
-			case uint:
-				res = int(v)
-			case uint8:
-				res = int(v)
-			case uint16:
-				res = int(v)
-			case uint32:
-				res = int(v)
-			case uint64:
-				res = int(v)
+		Parse: func(input any) *MeowResult[int] {
+			switch input.(type) {
+			case int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64:
+				return &MeowResult[int]{
+					Path:  path,
+					Error: nil,
+					Value: input.(int),
+				}
 			default:
-				return res, errors.New("not a valid integer")
+				return &MeowResult[int]{
+					Path:  path,
+					Error: ErrInvalidInteger,
+				}
 			}
-
-			return res, nil
 		},
 	}
 }
 
-func Float() *MeowSchema[float64] {
+func Float(path string) *MeowSchema[float64] {
 	return &MeowSchema[float64]{
-		Parse: func(input any) (float64, error) {
-			var res float64
+		Parse: func(input any) *MeowResult[float64] {
+			switch input.(type) {
+			case float32, float64:
+				if math.IsNaN(input.(float64)) {
+					return &MeowResult[float64]{
+						Path:  path,
+						Error: ErrInvalidFloat,
+					}
+				}
 
-			switch v := input.(type) {
-			case float32:
-				res = float64(v)
-			case float64:
-				res = v
+				return &MeowResult[float64]{
+					Path:  path,
+					Error: nil,
+					Value: input.(float64),
+				}
 			default:
-				errMsg := fmt.Sprintf("'%v' is not a float", input)
-				return res, errors.New(errMsg)
+				return &MeowResult[float64]{
+					Path:  path,
+					Error: ErrInvalidFloat,
+				}
 			}
-
-			if math.IsNaN(res) {
-				return res, errors.New("not a valid float")
-			}
-
-			return res, nil
 		},
 	}
 }
 
-func Boolean() *MeowSchema[bool] {
+func Boolean(path string) *MeowSchema[bool] {
 	return &MeowSchema[bool]{
-		Parse: func(input any) (bool, error) {
-			if input == nil {
-				errMsg := "input is nil"
-				return false, errors.New(errMsg)
-			}
-
-			switch v := input.(type) {
+		Parse: func(input any) *MeowResult[bool] {
+			switch input := input.(type) {
 			case bool:
-				return v, nil
+				return &MeowResult[bool]{
+					Path:  path,
+					Error: nil,
+					Value: input,
+				}
 			default:
-				return false, errors.New("not a valid boolean")
+				return &MeowResult[bool]{
+					Path:  path,
+					Error: ErrInvalidBoolean,
+				}
 			}
 		},
 	}
 }
 
-func Date() *MeowSchema[time.Time] {
+func Date(path string) *MeowSchema[time.Time] {
 	return &MeowSchema[time.Time]{
-		Parse: func(input any) (time.Time, error) {
+		Parse: func(input any) *MeowResult[time.Time] {
 			if input == nil || reflect.TypeOf(input).Kind() != reflect.Struct || reflect.TypeOf(input) != reflect.TypeOf(time.Time{}) {
-				return time.Time{}, errors.New("not a valid date")
+				return &MeowResult[time.Time]{
+					Path:  path,
+					Error: ErrInvalidBoolean,
+				}
 			}
-			return input.(time.Time), nil
+			return &MeowResult[time.Time]{
+				Path:  path,
+				Error: nil,
+				Value: input.(time.Time),
+			}
 		},
 	}
 }
 
-func Nil() *MeowSchema[interface{}] {
+func Nil(path string) *MeowSchema[any] {
 	return &MeowSchema[any]{
-		Parse: func(input any) (any, error) {
+		Parse: func(input any) *MeowResult[any] {
 			if input != nil {
-				return nil, errors.New("not null")
+				return &MeowResult[any]{
+					Path:  path,
+					Error: ErrInvalidNil,
+				}
 			}
-			return nil, nil
+			return &MeowResult[any]{
+				Path:  path,
+				Error: nil,
+				Value: nil,
+			}
 		},
 	}
 }
 
-func Any() *MeowSchema[any] {
+func Any(path string) *MeowSchema[any] {
 	return &MeowSchema[any]{
-		Parse: func(input any) (any, error) {
+		Parse: func(input any) *MeowResult[any] {
 			if input == nil {
-				return nil, errors.New("is null")
+				return &MeowResult[any]{
+					Path:  path,
+					Error: ErrInvalidAny,
+				}
 			}
-			return input, nil
+			return &MeowResult[any]{
+				Path:  path,
+				Error: nil,
+				Value: input,
+			}
 		},
 	}
 }
 
-func Never() *MeowSchema[any] {
+func Never(path string) *MeowSchema[any] {
 	return &MeowSchema[any]{
-		Parse: func(input any) (any, error) {
-			return nil, errors.New("never allowed")
+		Parse: func(input any) *MeowResult[any] {
+			return &MeowResult[any]{
+				Path:  path,
+				Error: ErrInvalidNever,
+			}
 		},
 	}
 }

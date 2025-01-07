@@ -13,29 +13,34 @@ type PrimitiveCoerce struct{}
 
 var Coerce = PrimitiveCoerce{}
 
-func (c *PrimitiveCoerce) String() *MeowSchema[string] {
+func (c *PrimitiveCoerce) String(path string) *MeowSchema[string] {
 	return &MeowSchema[string]{
-		Parse: func(input any) (string, error) {
+		Parse: func(input any) *MeowResult[string] {
 			var str string
-			switch v := input.(type) {
-			case string:
-				str = v
-			case int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64, float32, float64, bool:
-				str = fmt.Sprintf("%v", v)
+			switch input.(type) {
+			case string, int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64, float32, float64, bool:
+				str = input.(string)
 			case nil:
 				str = "null"
 			default:
 				errMsg := fmt.Sprintf("cannot coerce '%v' of type '%s' into a string.", input, reflect.TypeOf(input))
-				return "", errors.New(errMsg)
+				return &MeowResult[string]{
+					Path:  path,
+					Error: errors.New(errMsg),
+				}
 			}
-			return str, nil
+			return &MeowResult[string]{
+				Path:  path,
+				Error: nil,
+				Value: str,
+			}
 		},
 	}
 }
 
-func (c *PrimitiveCoerce) Integer() *MeowSchema[int] {
+func (c *PrimitiveCoerce) Integer(path string) *MeowSchema[int] {
 	return &MeowSchema[int]{
-		Parse: func(input any) (int, error) {
+		Parse: func(input any) *MeowResult[int] {
 			var result int
 			switch v := input.(type) {
 			case int:
@@ -63,7 +68,10 @@ func (c *PrimitiveCoerce) Integer() *MeowSchema[int] {
 			case float64:
 				if math.IsNaN(v) || math.IsInf(v, 0) {
 					errMsg := fmt.Sprintf("'%v' is NaN or infinity, cannot convert to integer.", v)
-					return 0, errors.New(errMsg)
+					return &MeowResult[int]{
+						Path:  path,
+						Error: errors.New(errMsg),
+					}
 				}
 				result = int(v)
 			case bool:
@@ -76,16 +84,22 @@ func (c *PrimitiveCoerce) Integer() *MeowSchema[int] {
 				result = 0
 			default:
 				errMsg := fmt.Sprintf("cannot coerce '%v' of type '%s' into an integer.", input, reflect.TypeOf(input))
-				return 0, errors.New(errMsg)
+				return &MeowResult[int]{
+					Path:  path,
+					Error: errors.New(errMsg),
+				}
 			}
-			return result, nil
+			return &MeowResult[int]{
+				Path:  path,
+				Value: result,
+			}
 		},
 	}
 }
 
-func (c *PrimitiveCoerce) Float() *MeowSchema[float64] {
+func (c *PrimitiveCoerce) Float(path string) *MeowSchema[float64] {
 	return &MeowSchema[float64]{
-		Parse: func(input any) (float64, error) {
+		Parse: func(input any) *MeowResult[float64] {
 			var result float64
 			switch v := input.(type) {
 			case float32:
@@ -116,7 +130,10 @@ func (c *PrimitiveCoerce) Float() *MeowSchema[float64] {
 				parsed, err := strconv.ParseFloat(v, 64)
 				if err != nil {
 					errMsg := fmt.Sprintf("cannot parse '%v' into a float.", v)
-					return 0, errors.New(errMsg)
+					return &MeowResult[float64]{
+						Path:  path,
+						Error: errors.New(errMsg),
+					}
 				}
 				result = parsed
 			case bool:
@@ -129,71 +146,94 @@ func (c *PrimitiveCoerce) Float() *MeowSchema[float64] {
 				result = 0.0
 			default:
 				errMsg := fmt.Sprintf("cannot coerce '%v' of type '%s' into a float.", input, reflect.TypeOf(input))
-				return 0, errors.New(errMsg)
+				return &MeowResult[float64]{
+					Path:  path,
+					Error: errors.New(errMsg),
+				}
 			}
 
 			if math.IsNaN(result) || math.IsInf(result, 0) {
 				errMsg := fmt.Sprintf("'%v' is NaN or infinity, cannot convert to float.", result)
-				return 0, errors.New(errMsg)
+				return &MeowResult[float64]{
+					Path:  path,
+					Error: errors.New(errMsg),
+				}
 			}
 
-			return result, nil
+			return &MeowResult[float64]{
+				Path:  path,
+				Value: result,
+			}
 		},
 	}
 }
 
-func (c *PrimitiveCoerce) Boolean() *MeowSchema[bool] {
+func (c *PrimitiveCoerce) Boolean(path string) *MeowSchema[bool] {
 	return &MeowSchema[bool]{
-		Parse: func(input any) (bool, error) {
-			var result bool
-			switch v := input.(type) {
+		Parse: func(input any) *MeowResult[bool] {
+			var res bool
+			switch input := input.(type) {
 			case bool:
-				result = v
+				res = input
 			case string:
-				switch v {
+				s := input
+				switch s {
 				case "true", "TRUE", "1":
-					result = true
+					res = true
 				case "false", "FALSE", "0":
-					result = false
+					res = false
 				default:
-					parsed, err := strconv.ParseBool(v)
+					parsed, err := strconv.ParseBool(s)
 					if err != nil {
-						errMsg := fmt.Sprintf("cannot parse '%v' into a bool.", v)
-						return false, errors.New(errMsg)
+						errMsg := fmt.Sprintf("cannot parse '%v' into a bool.", s)
+						return &MeowResult[bool]{
+							Path:  path,
+							Error: errors.New(errMsg),
+						}
 					}
-					result = parsed
+					res = parsed
 				}
 			case int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64:
-				if reflect.ValueOf(v).IsZero() {
-					result = false
+				n := input.(int)
+				if reflect.ValueOf(n).IsZero() {
+					res = false
 				} else {
-					result = true
+					res = true
 				}
 			case float32, float64:
-				if reflect.ValueOf(v).IsZero() {
-					result = false
+				n := input.(float64)
+				if reflect.ValueOf(n).IsZero() {
+					res = false
 				} else {
-					result = true
+					res = true
 				}
 			case nil:
-				result = false
+				res = false
 			default:
 				errMsg := fmt.Sprintf("cannot coerce '%v' of type '%s' into a bool.", input, reflect.TypeOf(input))
-				return false, errors.New(errMsg)
+				return &MeowResult[bool]{
+					Path:  path,
+					Error: errors.New(errMsg),
+				}
 			}
-			return result, nil
+
+			return &MeowResult[bool]{
+				Path:  path,
+				Value: res,
+			}
 		},
 	}
 }
 
-func (c *PrimitiveCoerce) Date() *MeowSchema[time.Time] {
+func (c *PrimitiveCoerce) Date(path string) *MeowSchema[time.Time] {
 	return &MeowSchema[time.Time]{
-		Parse: func(input any) (time.Time, error) {
+		Parse: func(input any) *MeowResult[time.Time] {
 			var result time.Time
-			switch v := input.(type) {
+			switch input := input.(type) {
 			case time.Time:
-				result = v
+				result = input
 			case string:
+				s := input
 				layouts := []string{
 					"2006-01-02",          // YYYY-MM-DD
 					"01/02/2006",          // MM/DD/YYYY
@@ -202,20 +242,32 @@ func (c *PrimitiveCoerce) Date() *MeowSchema[time.Time] {
 				}
 				var err error
 				for _, layout := range layouts {
-					result, err = time.Parse(layout, v)
+					result, err = time.Parse(layout, s)
 					if err == nil {
-						return result, nil
+						return &MeowResult[time.Time]{
+							Path:  path,
+							Value: result,
+						}
 					}
 				}
-				errMsg := fmt.Sprintf("cannot parse '%v' into a date.", v)
-				return result, errors.New(errMsg)
+				errMsg := fmt.Sprintf("cannot parse '%v' into a date.", s)
+				return &MeowResult[time.Time]{
+					Path:  path,
+					Error: errors.New(errMsg),
+				}
 			case nil:
 				result = time.Time{}
 			default:
 				errMsg := fmt.Sprintf("cannot coerce '%v' of type '%s' into a date.", input, reflect.TypeOf(input))
-				return result, errors.New(errMsg)
+				return &MeowResult[time.Time]{
+					Path:  path,
+					Error: errors.New(errMsg),
+				}
 			}
-			return result, nil
+			return &MeowResult[time.Time]{
+				Path:  path,
+				Value: result,
+			}
 		},
 	}
 }
