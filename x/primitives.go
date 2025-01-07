@@ -8,16 +8,11 @@ import (
 	"time"
 )
 
-type MeowSchema[T any] struct {
-	Parse func(input any) (T, error)
-}
-
 func String() *MeowSchema[string] {
 	return &MeowSchema[string]{
 		Parse: func(input any) (string, error) {
 			if input == nil || reflect.TypeOf(input).Kind() != reflect.String {
-				errMsg := fmt.Sprintf("'%s' is not a string", input)
-				return "", errors.New(errMsg)
+				return "", errors.New("not a valid string")
 			}
 			return input.(string), nil
 		},
@@ -51,8 +46,7 @@ func Integer() *MeowSchema[int] {
 			case uint64:
 				res = int(v)
 			default:
-				errMsg := fmt.Sprintf("'%v' is not an integer", input)
-				return res, errors.New(errMsg)
+				return res, errors.New("not a valid integer")
 			}
 
 			return res, nil
@@ -76,8 +70,7 @@ func Float() *MeowSchema[float64] {
 			}
 
 			if math.IsNaN(res) {
-				errMsg := fmt.Sprintf("'%v' is NaN", input)
-				return res, errors.New(errMsg)
+				return res, errors.New("not a valid float")
 			}
 
 			return res, nil
@@ -97,8 +90,7 @@ func Boolean() *MeowSchema[bool] {
 			case bool:
 				return v, nil
 			default:
-				errMsg := fmt.Sprintf("'%v' is not a boolean", input)
-				return false, errors.New(errMsg)
+				return false, errors.New("not a valid boolean")
 			}
 		},
 	}
@@ -108,8 +100,7 @@ func Date() *MeowSchema[time.Time] {
 	return &MeowSchema[time.Time]{
 		Parse: func(input any) (time.Time, error) {
 			if input == nil || reflect.TypeOf(input).Kind() != reflect.Struct || reflect.TypeOf(input) != reflect.TypeOf(time.Time{}) {
-				errMsg := fmt.Sprintf("'%v' is not a valid date", input)
-				return time.Time{}, errors.New(errMsg)
+				return time.Time{}, errors.New("not a valid date")
 			}
 			return input.(time.Time), nil
 		},
@@ -120,8 +111,7 @@ func Nil() *MeowSchema[interface{}] {
 	return &MeowSchema[any]{
 		Parse: func(input any) (any, error) {
 			if input != nil {
-				errMsg := fmt.Sprintf("'%v' is not nil", input)
-				return nil, errors.New(errMsg)
+				return nil, errors.New("not null")
 			}
 			return nil, nil
 		},
@@ -132,8 +122,7 @@ func Any() *MeowSchema[any] {
 	return &MeowSchema[any]{
 		Parse: func(input any) (any, error) {
 			if input == nil {
-				errMsg := "input is nil"
-				return nil, errors.New(errMsg)
+				return nil, errors.New("is null")
 			}
 			return input, nil
 		},
@@ -143,8 +132,7 @@ func Any() *MeowSchema[any] {
 func Never() *MeowSchema[any] {
 	return &MeowSchema[any]{
 		Parse: func(input any) (any, error) {
-			errMsg := "input is never allowed"
-			return nil, errors.New(errMsg)
+			return nil, errors.New("never allowed")
 		},
 	}
 }
