@@ -3,6 +3,7 @@ package meow
 import (
 	"math"
 	"testing"
+	"time"
 )
 
 func TestCoerceStringValid(t *testing.T) {
@@ -155,6 +156,117 @@ func TestCoerceFloatInvalid(t *testing.T) {
 		math.NaN(),
 		math.Inf(1),
 		math.Inf(-1),
+	}
+
+	for _, input := range testCases {
+		_, err := schema.Parse(input)
+		if err == nil {
+			t.Errorf("For input '%v', expected an error, but got none", input)
+		}
+	}
+}
+func TestCoerceBooleanValid(t *testing.T) {
+	schema := Coerce.Boolean("schema")
+
+	testCases := map[any]bool{
+		true:         true,
+		false:        false,
+		"true":       true,
+		"false":      false,
+		"1":          true,
+		"0":          false,
+		0:            false,
+		1:            true,
+		int8(1):      true,
+		int8(0):      false,
+		int16(1):     true,
+		int16(0):     false,
+		int32(1):     true,
+		int32(0):     false,
+		int64(1):     true,
+		int64(0):     false,
+		uint(1):      true,
+		uint(0):      false,
+		uint8(1):     true,
+		uint8(0):     false,
+		uint16(1):    true,
+		uint16(0):    false,
+		uint32(1):    true,
+		uint32(0):    false,
+		uint64(1):    true,
+		uint64(0):    false,
+		float32(1.0): true,
+		float32(0.0): false,
+		float64(1.0): true,
+		float64(0.0): false,
+		nil:          false,
+	}
+
+	for in, expected := range testCases {
+		res, err := schema.Parse(in)
+
+		if err != nil {
+			t.Errorf("For input '%v', expected no error, but got %v", in, err)
+			continue
+		}
+
+		if res != expected {
+			t.Errorf("For input '%v', expected '%v', but got '%v'", in, expected, res)
+		}
+	}
+}
+
+func TestCoerceBooleanInvalid(t *testing.T) {
+	schema := Coerce.Boolean("schema")
+
+	testCases := []any{
+		"not a bool",
+		struct{}{},
+		[]int{1, 2, 3},
+		map[string]int{},
+	}
+
+	for _, input := range testCases {
+		_, err := schema.Parse(input)
+		if err == nil {
+			t.Errorf("For input '%v', expected an error, but got none", input)
+		}
+	}
+}
+func TestCoerceDateValid(t *testing.T) {
+	schema := Coerce.Date("schema")
+
+	testCases := map[any]time.Time{
+		"2006-01-02":          time.Date(2006, 1, 2, 0, 0, 0, 0, time.UTC),
+		"01/02/2006":          time.Date(2006, 1, 2, 0, 0, 0, 0, time.UTC),
+		"2006-01-02 15:04:05": time.Date(2006, 1, 2, 15, 4, 5, 0, time.UTC),
+		"02/01/2006 15:04:05": time.Date(2006, 1, 2, 15, 4, 5, 0, time.UTC),
+		time.Date(2006, 1, 2, 0, 0, 0, 0, time.UTC): time.Date(2006, 1, 2, 0, 0, 0, 0, time.UTC),
+		nil: {},
+	}
+
+	for in, expected := range testCases {
+		res, err := schema.Parse(in)
+
+		if err != nil {
+			t.Errorf("For input '%v', expected no error, but got %v", in, err)
+			continue
+		}
+
+		if !res.Equal(expected) {
+			t.Errorf("For input '%v', expected '%v', but got '%v'", in, expected, res)
+		}
+	}
+}
+
+func TestCoerceDateInvalid(t *testing.T) {
+	schema := Coerce.Date("schema")
+
+	testCases := []any{
+		"invalid date",
+		struct{}{},
+		[]int{1, 2, 3},
+		map[string]int{},
 	}
 
 	for _, input := range testCases {

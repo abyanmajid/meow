@@ -5,3 +5,7 @@
 [Documentation](#) 📦 | [Examples](https://github.com/abyanmajid/meow/tree/master/examples) 🌿 | [Go Package Reference](https://pkg.go.dev/github.com/abyanmajid/meow) 📃
 
 A simple, Zod-inspired schema validation toolkit for Go.
+
+## License
+
+This package is GPL-3.0 licensed.

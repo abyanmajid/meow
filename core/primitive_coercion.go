@@ -6,6 +6,7 @@ import (
 	"math"
 	"reflect"
 	"strconv"
+	"time"
 )
 
 type PrimitiveCoerce struct{}
@@ -131,12 +132,89 @@ func (c *PrimitiveCoerce) Float(varName string) *MeowSchema[float64] {
 				return 0, errors.New(errMsg)
 			}
 
-			// Handle NaN and Infinity
 			if math.IsNaN(result) || math.IsInf(result, 0) {
 				errMsg := fmt.Sprintf("[%s]: '%v' is NaN or infinity, cannot convert to float.", varName, result)
 				return 0, errors.New(errMsg)
 			}
 
+			return result, nil
+		},
+	}
+}
+
+func (c *PrimitiveCoerce) Boolean(varName string) *MeowSchema[bool] {
+	return &MeowSchema[bool]{
+		Parse: func(input any) (bool, error) {
+			var result bool
+			switch v := input.(type) {
+			case bool:
+				result = v
+			case string:
+				switch v {
+				case "true", "TRUE", "1":
+					result = true
+				case "false", "FALSE", "0":
+					result = false
+				default:
+					parsed, err := strconv.ParseBool(v)
+					if err != nil {
+						errMsg := fmt.Sprintf("[%s]: cannot parse '%v' into a bool.", varName, v)
+						return false, errors.New(errMsg)
+					}
+					result = parsed
+				}
+			case int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64:
+				if reflect.ValueOf(v).IsZero() {
+					result = false
+				} else {
+					result = true
+				}
+			case float32, float64:
+				if reflect.ValueOf(v).IsZero() {
+					result = false
+				} else {
+					result = true
+				}
+			case nil:
+				result = false
+			default:
+				errMsg := fmt.Sprintf("[%s]: cannot coerce '%v' of type '%s' into a bool.", varName, input, reflect.TypeOf(input))
+				return false, errors.New(errMsg)
+			}
+			return result, nil
+		},
+	}
+}
+
+func (c *PrimitiveCoerce) Date(varName string) *MeowSchema[time.Time] {
+	return &MeowSchema[time.Time]{
+		Parse: func(input any) (time.Time, error) {
+			var result time.Time
+			switch v := input.(type) {
+			case time.Time:
+				result = v
+			case string:
+				layouts := []string{
+					"2006-01-02",          // YYYY-MM-DD
+					"01/02/2006",          // MM/DD/YYYY
+					"2006-01-02 15:04:05", // YYYY-MM-DD HH:MM:SS
+					"02/01/2006 15:04:05", // DD/MM/YYYY HH:MM:SS
+				}
+				var err error
+				for _, layout := range layouts {
+					result, err = time.Parse(layout, v)
+					if err == nil {
+						return result, nil
+					}
+				}
+				errMsg := fmt.Sprintf("[%s]: cannot parse '%v' into a date.", varName, v)
+				return result, errors.New(errMsg)
+			case nil:
+				result = time.Time{}
+			default:
+				errMsg := fmt.Sprintf("[%s]: cannot coerce '%v' of type '%s' into a date.", varName, input, reflect.TypeOf(input))
+				return result, errors.New(errMsg)
+			}
 			return result, nil
 		},
 	}
