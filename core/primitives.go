@@ -12,11 +12,11 @@ type MeowSchema[T any] struct {
 	Parse func(input any) (T, error)
 }
 
-func String(varName string) *MeowSchema[string] {
+func String() *MeowSchema[string] {
 	return &MeowSchema[string]{
 		Parse: func(input any) (string, error) {
 			if input == nil || reflect.TypeOf(input).Kind() != reflect.String {
-				errMsg := fmt.Sprintf("[%s]: '%s' is not a string.", varName, input)
+				errMsg := fmt.Sprintf("'%s' is not a string", input)
 				return "", errors.New(errMsg)
 			}
 			return input.(string), nil
@@ -24,7 +24,7 @@ func String(varName string) *MeowSchema[string] {
 	}
 }
 
-func Integer(varName string) *MeowSchema[int] {
+func Integer() *MeowSchema[int] {
 	return &MeowSchema[int]{
 		Parse: func(input any) (int, error) {
 			var res int
@@ -51,7 +51,7 @@ func Integer(varName string) *MeowSchema[int] {
 			case uint64:
 				res = int(v)
 			default:
-				errMsg := fmt.Sprintf("[%s]: '%v' is not an integer.", varName, input)
+				errMsg := fmt.Sprintf("'%v' is not an integer", input)
 				return res, errors.New(errMsg)
 			}
 
@@ -60,7 +60,7 @@ func Integer(varName string) *MeowSchema[int] {
 	}
 }
 
-func Float(varName string) *MeowSchema[float64] {
+func Float() *MeowSchema[float64] {
 	return &MeowSchema[float64]{
 		Parse: func(input any) (float64, error) {
 			var res float64
@@ -71,12 +71,12 @@ func Float(varName string) *MeowSchema[float64] {
 			case float64:
 				res = v
 			default:
-				errMsg := fmt.Sprintf("[%s]: '%v' is not a float.", varName, input)
+				errMsg := fmt.Sprintf("'%v' is not a float", input)
 				return res, errors.New(errMsg)
 			}
 
 			if math.IsNaN(res) {
-				errMsg := fmt.Sprintf("[%s]: '%v' is NaN.", varName, input)
+				errMsg := fmt.Sprintf("'%v' is NaN", input)
 				return res, errors.New(errMsg)
 			}
 
@@ -85,11 +85,11 @@ func Float(varName string) *MeowSchema[float64] {
 	}
 }
 
-func Boolean(varName string) *MeowSchema[bool] {
+func Boolean() *MeowSchema[bool] {
 	return &MeowSchema[bool]{
 		Parse: func(input any) (bool, error) {
 			if input == nil {
-				errMsg := fmt.Sprintf("[%s]: input is nil.", varName)
+				errMsg := "input is nil"
 				return false, errors.New(errMsg)
 			}
 
@@ -97,18 +97,18 @@ func Boolean(varName string) *MeowSchema[bool] {
 			case bool:
 				return v, nil
 			default:
-				errMsg := fmt.Sprintf("[%s]: '%v' is not a boolean.", varName, input)
+				errMsg := fmt.Sprintf("'%v' is not a boolean", input)
 				return false, errors.New(errMsg)
 			}
 		},
 	}
 }
 
-func Date(varName string) *MeowSchema[time.Time] {
+func Date() *MeowSchema[time.Time] {
 	return &MeowSchema[time.Time]{
 		Parse: func(input any) (time.Time, error) {
 			if input == nil || reflect.TypeOf(input).Kind() != reflect.Struct || reflect.TypeOf(input) != reflect.TypeOf(time.Time{}) {
-				errMsg := fmt.Sprintf("[%s]: '%v' is not a valid date.", varName, input)
+				errMsg := fmt.Sprintf("'%v' is not a valid date", input)
 				return time.Time{}, errors.New(errMsg)
 			}
 			return input.(time.Time), nil
@@ -116,11 +116,11 @@ func Date(varName string) *MeowSchema[time.Time] {
 	}
 }
 
-func Nil(varName string) *MeowSchema[interface{}] {
+func Nil() *MeowSchema[interface{}] {
 	return &MeowSchema[any]{
 		Parse: func(input any) (any, error) {
 			if input != nil {
-				errMsg := fmt.Sprintf("[%s]: '%v' is not nil.", varName, input)
+				errMsg := fmt.Sprintf("'%v' is not nil", input)
 				return nil, errors.New(errMsg)
 			}
 			return nil, nil
@@ -128,11 +128,11 @@ func Nil(varName string) *MeowSchema[interface{}] {
 	}
 }
 
-func Any(varName string) *MeowSchema[any] {
+func Any() *MeowSchema[any] {
 	return &MeowSchema[any]{
 		Parse: func(input any) (any, error) {
 			if input == nil {
-				errMsg := fmt.Sprintf("[%s]: input is nil.", varName)
+				errMsg := "input is nil"
 				return nil, errors.New(errMsg)
 			}
 			return input, nil
@@ -140,10 +140,10 @@ func Any(varName string) *MeowSchema[any] {
 	}
 }
 
-func Never(varName string) *MeowSchema[any] {
+func Never() *MeowSchema[any] {
 	return &MeowSchema[any]{
 		Parse: func(input any) (any, error) {
-			errMsg := fmt.Sprintf("[%s]: input is never allowed.", varName)
+			errMsg := "input is never allowed"
 			return nil, errors.New(errMsg)
 		},
 	}

@@ -4,7 +4,11 @@
 
 [Documentation](#) 📦 | [Examples](https://github.com/abyanmajid/meow/tree/master/examples) 🌿 | [Go Package Reference](https://pkg.go.dev/github.com/abyanmajid/meow) 📃
 
-A simple, Zod-inspired schema validation toolkit for Go.
+A Golang package for composing schema validators. Its syntax is a near-identical Golang-port of the TypeScript schema validation package, [Zod](https://github.com/colinhacks/zod).
+
+## Usage
+
+WIP.
 
 ## License
 

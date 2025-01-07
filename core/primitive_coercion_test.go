@@ -7,7 +7,7 @@ import (
 )
 
 func TestCoerceStringValid(t *testing.T) {
-	schema := Coerce.String("schema")
+	schema := Coerce.String()
 
 	testCases := map[any]string{
 		"already a string": "already a string",
@@ -39,7 +39,7 @@ func TestCoerceStringValid(t *testing.T) {
 }
 
 func TestCoerceStringInvalid(t *testing.T) {
-	schema := Coerce.String("schema")
+	schema := Coerce.String()
 
 	testCases := []any{
 		struct{}{},
@@ -55,7 +55,7 @@ func TestCoerceStringInvalid(t *testing.T) {
 	}
 }
 func TestCoerceIntegerValid(t *testing.T) {
-	schema := Coerce.Integer("schema")
+	schema := Coerce.Integer()
 
 	testCases := map[any]int{
 		1:            1,
@@ -90,7 +90,7 @@ func TestCoerceIntegerValid(t *testing.T) {
 }
 
 func TestCoerceIntegerInvalid(t *testing.T) {
-	schema := Coerce.Integer("schema")
+	schema := Coerce.Integer()
 
 	testCases := []any{
 		"string",
@@ -110,7 +110,7 @@ func TestCoerceIntegerInvalid(t *testing.T) {
 	}
 }
 func TestCoerceFloatValid(t *testing.T) {
-	schema := Coerce.Float("schema")
+	schema := Coerce.Float()
 
 	testCases := map[any]float64{
 		1:            1.0,
@@ -146,7 +146,7 @@ func TestCoerceFloatValid(t *testing.T) {
 }
 
 func TestCoerceFloatInvalid(t *testing.T) {
-	schema := Coerce.Float("schema")
+	schema := Coerce.Float()
 
 	testCases := []any{
 		"string",
@@ -166,7 +166,7 @@ func TestCoerceFloatInvalid(t *testing.T) {
 	}
 }
 func TestCoerceBooleanValid(t *testing.T) {
-	schema := Coerce.Boolean("schema")
+	schema := Coerce.Boolean()
 
 	testCases := map[any]bool{
 		true:         true,
@@ -217,7 +217,7 @@ func TestCoerceBooleanValid(t *testing.T) {
 }
 
 func TestCoerceBooleanInvalid(t *testing.T) {
-	schema := Coerce.Boolean("schema")
+	schema := Coerce.Boolean()
 
 	testCases := []any{
 		"not a bool",
@@ -234,7 +234,7 @@ func TestCoerceBooleanInvalid(t *testing.T) {
 	}
 }
 func TestCoerceDateValid(t *testing.T) {
-	schema := Coerce.Date("schema")
+	schema := Coerce.Date()
 
 	testCases := map[any]time.Time{
 		"2006-01-02":          time.Date(2006, 1, 2, 0, 0, 0, 0, time.UTC),
@@ -260,7 +260,7 @@ func TestCoerceDateValid(t *testing.T) {
 }
 
 func TestCoerceDateInvalid(t *testing.T) {
-	schema := Coerce.Date("schema")
+	schema := Coerce.Date()
 
 	testCases := []any{
 		"invalid date",

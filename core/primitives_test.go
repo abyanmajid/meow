@@ -7,7 +7,7 @@ import (
 )
 
 func TestStringValid(t *testing.T) {
-	schema := String("schema")
+	schema := String()
 
 	inputs := []any{"Mark", "123", "", "~!@#$%^&*()_+`,./;'"}
 
@@ -20,7 +20,7 @@ func TestStringValid(t *testing.T) {
 }
 
 func TestStringInvalid(t *testing.T) {
-	schema := String("schema")
+	schema := String()
 
 	inputs := []any{nil, true, false, 123, time.Now()}
 
@@ -33,7 +33,7 @@ func TestStringInvalid(t *testing.T) {
 }
 
 func TestFloatValid(t *testing.T) {
-	schema := Float("schema")
+	schema := Float()
 
 	inputs := []any{float32(1.23), float64(4.56), float32(math.Pi), float64(math.E)}
 
@@ -46,7 +46,7 @@ func TestFloatValid(t *testing.T) {
 }
 
 func TestFloatInvalid(t *testing.T) {
-	schema := Float("schema")
+	schema := Float()
 
 	inputs := []any{"Hello", 123, nil, true, false, struct{}{}, math.NaN()}
 
@@ -59,7 +59,7 @@ func TestFloatInvalid(t *testing.T) {
 }
 
 func TestIntegerValid(t *testing.T) {
-	schema := Integer("schema")
+	schema := Integer()
 
 	inputs := []any{int(123), int8(123), int16(123), int32(123), int64(123), uint(123), uint8(123), uint16(123), uint32(123), uint64(123)}
 
@@ -72,7 +72,7 @@ func TestIntegerValid(t *testing.T) {
 }
 
 func TestIntegerInvalid(t *testing.T) {
-	schema := Integer("schema")
+	schema := Integer()
 
 	inputs := []any{"Hello", 123.45, nil, true, false, struct{}{}, time.Now()}
 
@@ -84,7 +84,7 @@ func TestIntegerInvalid(t *testing.T) {
 	}
 }
 func TestBooleanValid(t *testing.T) {
-	schema := Boolean("schema")
+	schema := Boolean()
 
 	inputs := []any{true, false}
 
@@ -97,7 +97,7 @@ func TestBooleanValid(t *testing.T) {
 }
 
 func TestBooleanInvalid(t *testing.T) {
-	schema := Boolean("schema")
+	schema := Boolean()
 
 	inputs := []any{nil, "true", 1, 0, 123.45, struct{}{}, time.Now()}
 
@@ -109,7 +109,7 @@ func TestBooleanInvalid(t *testing.T) {
 	}
 }
 func TestDateValid(t *testing.T) {
-	schema := Date("schema")
+	schema := Date()
 
 	inputs := []any{time.Now(), time.Date(2020, time.January, 1, 0, 0, 0, 0, time.UTC)}
 
@@ -122,7 +122,7 @@ func TestDateValid(t *testing.T) {
 }
 
 func TestDateInvalid(t *testing.T) {
-	schema := Date("schema")
+	schema := Date()
 
 	inputs := []any{nil, "2020-01-01", 123, true, false, struct{}{}}
 
@@ -134,7 +134,7 @@ func TestDateInvalid(t *testing.T) {
 	}
 }
 func TestNilValid(t *testing.T) {
-	schema := Nil("schema")
+	schema := Nil()
 
 	inputs := []any{nil}
 
@@ -147,7 +147,7 @@ func TestNilValid(t *testing.T) {
 }
 
 func TestNilInvalid(t *testing.T) {
-	schema := Nil("schema")
+	schema := Nil()
 
 	inputs := []any{"Hello", 123, true, false, struct{}{}, time.Now()}
 
@@ -159,7 +159,7 @@ func TestNilInvalid(t *testing.T) {
 	}
 }
 func TestAnyValid(t *testing.T) {
-	schema := Any("schema")
+	schema := Any()
 
 	inputs := []any{"Hello", 123, true, false, 123.45, struct{}{}, time.Now()}
 
@@ -172,7 +172,7 @@ func TestAnyValid(t *testing.T) {
 }
 
 func TestAnyInvalid(t *testing.T) {
-	schema := Any("schema")
+	schema := Any()
 
 	inputs := []any{nil}
 
@@ -184,7 +184,7 @@ func TestAnyInvalid(t *testing.T) {
 	}
 }
 func TestNever(t *testing.T) {
-	schema := Never("schema")
+	schema := Never()
 
 	inputs := []any{"Hello", 123, true, false, 123.45, struct{}{}, time.Now(), nil}
 
