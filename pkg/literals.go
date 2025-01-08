@@ -6,17 +6,17 @@ import (
 	"reflect"
 )
 
-func Literal[T any](path string, value T) *MeowSchema[T] {
-	return &MeowSchema[T]{
-		Parse: func(input any) *MeowResult[T] {
+func Literal[T any](path string, value T) *Schema[T] {
+	return &Schema[T]{
+		Parse: func(input any) *Result[T] {
 			if reflect.DeepEqual(input, value) {
-				return &MeowResult[T]{
+				return &Result[T]{
 					Path:  path,
 					Value: value,
 				}
 			}
 			errMsg := fmt.Sprintf("input does not match the literal value '%v'", value)
-			return &MeowResult[T]{
+			return &Result[T]{
 				Path:  path,
 				Error: errors.New(errMsg),
 			}

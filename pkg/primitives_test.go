@@ -9,12 +9,12 @@ func TestString(t *testing.T) {
 	tests := []struct {
 		name     string
 		input    any
-		expected *MeowResult[string]
+		expected *Result[string]
 	}{
 		{
 			name:  "valid string",
 			input: "hello",
-			expected: &MeowResult[string]{
+			expected: &Result[string]{
 				Path:  "testPath",
 				Error: nil,
 				Value: "hello",
@@ -23,7 +23,7 @@ func TestString(t *testing.T) {
 		{
 			name:  "nil input",
 			input: nil,
-			expected: &MeowResult[string]{
+			expected: &Result[string]{
 				Path:  "testPath",
 				Error: errors.New("not a valid string"),
 			},
@@ -31,7 +31,7 @@ func TestString(t *testing.T) {
 		{
 			name:  "non-string input",
 			input: 123,
-			expected: &MeowResult[string]{
+			expected: &Result[string]{
 				Path:  "testPath",
 				Error: errors.New("not a valid string"),
 			},
