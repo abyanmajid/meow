@@ -41,7 +41,7 @@ func TestString(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			schema := String("testPath")
-			result := schema.Parse(tt.input)
+			result := schema.Rules.Parse(tt.input)
 			if result.Path != tt.expected.Path || result.Error != nil && result.Error.Error() != tt.expected.Error.Error() || result.Value != tt.expected.Value {
 				t.Errorf("expected %v, got %v", tt.expected, result)
 			}

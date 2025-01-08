@@ -5,7 +5,7 @@ import (
 	"math"
 )
 
-func (s *Schema[float64]) Int() *Schema[int] {
+func (s *NumberSchema[float64]) Int() *Schema[int] {
 	return &Schema[int]{
 		Parse: func(input any) *Result[int] {
 			numInput := convertToFloat(input)
@@ -19,7 +19,7 @@ func (s *Schema[float64]) Int() *Schema[int] {
 	}
 }
 
-func (s *Schema[float64]) Gt(value float64) *Schema[float64] {
+func (s *NumberSchema[float64]) Gt(value float64) *Schema[float64] {
 	return &Schema[float64]{
 		Parse: func(input any) *Result[float64] {
 			numInput := convertToFloat(input)
@@ -38,7 +38,7 @@ func (s *Schema[float64]) Gt(value float64) *Schema[float64] {
 	}
 }
 
-func (s *Schema[float64]) Gte(value float64) *Schema[float64] {
+func (s *NumberSchema[float64]) Gte(value float64) *Schema[float64] {
 	return &Schema[float64]{
 		Parse: func(input any) *Result[float64] {
 			numInput := convertToFloat(input)
@@ -57,7 +57,7 @@ func (s *Schema[float64]) Gte(value float64) *Schema[float64] {
 	}
 }
 
-func (s *Schema[float64]) Lt(value float64) *Schema[float64] {
+func (s *NumberSchema[float64]) Lt(value float64) *Schema[float64] {
 	return &Schema[float64]{
 		Parse: func(input any) *Result[float64] {
 			numInput := convertToFloat(input)
@@ -74,7 +74,7 @@ func (s *Schema[float64]) Lt(value float64) *Schema[float64] {
 	}
 }
 
-func (s *Schema[float64]) Lte(value float64) *Schema[float64] {
+func (s *NumberSchema[float64]) Lte(value float64) *Schema[float64] {
 	return &Schema[float64]{
 		Parse: func(input any) *Result[float64] {
 			numInput := convertToFloat(input)
@@ -91,7 +91,7 @@ func (s *Schema[float64]) Lte(value float64) *Schema[float64] {
 	}
 }
 
-func (s *Schema[float64]) Positive() *Schema[float64] {
+func (s *NumberSchema[float64]) Positive() *Schema[float64] {
 	return &Schema[float64]{
 		Parse: func(input any) *Result[float64] {
 			numInput := convertToFloat(input)
@@ -107,7 +107,7 @@ func (s *Schema[float64]) Positive() *Schema[float64] {
 	}
 }
 
-func (s *Schema[float64]) NonNegative() *Schema[float64] {
+func (s *NumberSchema[float64]) NonNegative() *Schema[float64] {
 	return &Schema[float64]{
 		Parse: func(input any) *Result[float64] {
 			numInput := convertToFloat(input)
@@ -123,7 +123,7 @@ func (s *Schema[float64]) NonNegative() *Schema[float64] {
 	}
 }
 
-func (s *Schema[float64]) Negative() *Schema[float64] {
+func (s *NumberSchema[float64]) Negative() *Schema[float64] {
 	return &Schema[float64]{
 		Parse: func(input any) *Result[float64] {
 			numInput := convertToFloat(input)
@@ -139,7 +139,7 @@ func (s *Schema[float64]) Negative() *Schema[float64] {
 	}
 }
 
-func (s *Schema[float64]) NonPositive() *Schema[float64] {
+func (s *NumberSchema[float64]) NonPositive() *Schema[float64] {
 	return &Schema[float64]{
 		Parse: func(input any) *Result[float64] {
 			numInput := convertToFloat(input)
@@ -155,7 +155,7 @@ func (s *Schema[float64]) NonPositive() *Schema[float64] {
 	}
 }
 
-func (s *Schema[float64]) MultipleOf(value float64) *Schema[float64] {
+func (s *NumberSchema[float64]) MultipleOf(value float64) *Schema[float64] {
 	return &Schema[float64]{
 		Parse: func(input any) *Result[float64] {
 			numInput := convertToFloat(input)
@@ -172,7 +172,7 @@ func (s *Schema[float64]) MultipleOf(value float64) *Schema[float64] {
 	}
 }
 
-func (s *Schema[float64]) Finite() *Schema[float64] {
+func (s *NumberSchema[float64]) Finite() *Schema[float64] {
 	return &Schema[float64]{
 		Parse: func(input any) *Result[float64] {
 			numInput := convertToFloat(input)
@@ -188,7 +188,7 @@ func (s *Schema[float64]) Finite() *Schema[float64] {
 	}
 }
 
-func (s *Schema[float64]) Safe() *Schema[float64] {
+func (s *NumberSchema[float64]) Safe() *Schema[float64] {
 	return &Schema[float64]{
 		Parse: func(input any) *Result[float64] {
 			numInput := convertToFloat(input)

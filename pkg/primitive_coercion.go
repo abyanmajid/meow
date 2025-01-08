@@ -13,8 +13,8 @@ type PrimitiveCoerce struct{}
 
 var Coerce = PrimitiveCoerce{}
 
-func (c *PrimitiveCoerce) String(path string) *Schema[string] {
-	return &Schema[string]{
+func (c *PrimitiveCoerce) String(path string) *StringSchema[string] {
+	return &StringSchema[string]{&Schema[string]{
 		Parse: func(input any) *Result[string] {
 			var str string
 			switch input.(type) {
@@ -35,11 +35,11 @@ func (c *PrimitiveCoerce) String(path string) *Schema[string] {
 				Value: str,
 			}
 		},
-	}
+	}}
 }
 
-func (c *PrimitiveCoerce) Number(path string) *Schema[float64] {
-	return &Schema[float64]{
+func (c *PrimitiveCoerce) Number(path string) *NumberSchema[float64] {
+	return &NumberSchema[float64]{&Schema[float64]{
 		Parse: func(input any) *Result[float64] {
 			var result float64
 			switch v := input.(type) {
@@ -106,11 +106,11 @@ func (c *PrimitiveCoerce) Number(path string) *Schema[float64] {
 				Value: result,
 			}
 		},
-	}
+	}}
 }
 
-func (c *PrimitiveCoerce) Boolean(path string) *Schema[bool] {
-	return &Schema[bool]{
+func (c *PrimitiveCoerce) Boolean(path string) *BooleanSchema[bool] {
+	return &BooleanSchema[bool]{&Schema[bool]{
 		Parse: func(input any) *Result[bool] {
 			var res bool
 			switch input := input.(type) {
@@ -163,11 +163,11 @@ func (c *PrimitiveCoerce) Boolean(path string) *Schema[bool] {
 				Value: res,
 			}
 		},
-	}
+	}}
 }
 
-func (c *PrimitiveCoerce) Date(path string) *Schema[time.Time] {
-	return &Schema[time.Time]{
+func (c *PrimitiveCoerce) Date(path string) *DateSchema[time.Time] {
+	return &DateSchema[time.Time]{&Schema[time.Time]{
 		Parse: func(input any) *Result[time.Time] {
 			var result time.Time
 			switch input := input.(type) {
@@ -210,5 +210,5 @@ func (c *PrimitiveCoerce) Date(path string) *Schema[time.Time] {
 				Value: result,
 			}
 		},
-	}
+	}}
 }

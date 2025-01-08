@@ -6,22 +6,8 @@ import (
 	"time"
 )
 
-type Result[T any] struct {
-	Path  string
-	Error error
-	Value T
-}
-
-type Schema[T any] struct {
-	Parse func(input any) *Result[T]
-}
-
-type MeowNonPrimitiveSchema[T any] struct {
-	Parse func(input T) *Result[T]
-}
-
-func String(path string) *Schema[string] {
-	return &Schema[string]{
+func String(path string) *StringSchema[string] {
+	return &StringSchema[string]{&Schema[string]{
 		Parse: func(input any) *Result[string] {
 			if input == nil || reflect.TypeOf(input).Kind() != reflect.String {
 				return &Result[string]{
@@ -35,11 +21,12 @@ func String(path string) *Schema[string] {
 				Value: input.(string),
 			}
 		},
-	}
+		Optional: false,
+	}}
 }
 
-func Number(path string) *Schema[float64] {
-	return &Schema[float64]{
+func Number(path string) *NumberSchema[float64] {
+	return &NumberSchema[float64]{&Schema[float64]{
 		Parse: func(input any) *Result[float64] {
 			switch v := input.(type) {
 			case float32, float64:
@@ -67,11 +54,12 @@ func Number(path string) *Schema[float64] {
 				}
 			}
 		},
-	}
+		Optional: false,
+	}}
 }
 
-func Boolean(path string) *Schema[bool] {
-	return &Schema[bool]{
+func Boolean(path string) *BooleanSchema[bool] {
+	return &BooleanSchema[bool]{&Schema[bool]{
 		Parse: func(input any) *Result[bool] {
 			switch input := input.(type) {
 			case bool:
@@ -87,47 +75,53 @@ func Boolean(path string) *Schema[bool] {
 				}
 			}
 		},
-	}
+		Optional: false,
+	}}
 }
 
-func Date(path string) *Schema[time.Time] {
-	return &Schema[time.Time]{
-		Parse: func(input any) *Result[time.Time] {
-			if input == nil || reflect.TypeOf(input).Kind() != reflect.Struct || reflect.TypeOf(input) != reflect.TypeOf(time.Time{}) {
+func Date(path string) *DateSchema[time.Time] {
+	return &DateSchema[time.Time]{
+		&Schema[time.Time]{
+			Parse: func(input any) *Result[time.Time] {
+				if input == nil || reflect.TypeOf(input).Kind() != reflect.Struct || reflect.TypeOf(input) != reflect.TypeOf(time.Time{}) {
+					return &Result[time.Time]{
+						Path:  path,
+						Error: ErrInvalidBoolean,
+					}
+				}
 				return &Result[time.Time]{
 					Path:  path,
-					Error: ErrInvalidBoolean,
+					Error: nil,
+					Value: input.(time.Time),
 				}
-			}
-			return &Result[time.Time]{
-				Path:  path,
-				Error: nil,
-				Value: input.(time.Time),
-			}
-		},
-	}
+			},
+			Optional: false,
+		}}
 }
 
-func Nil(path string) *Schema[any] {
-	return &Schema[any]{
-		Parse: func(input any) *Result[any] {
-			if input != nil {
+func Nil(path string) *NilSchema[any] {
+	return &NilSchema[any]{
+		&Schema[any]{
+			Parse: func(input any) *Result[any] {
+				if input != nil {
+					return &Result[any]{
+						Path:  path,
+						Error: ErrInvalidNil,
+					}
+				}
 				return &Result[any]{
 					Path:  path,
-					Error: ErrInvalidNil,
+					Error: nil,
+					Value: nil,
 				}
-			}
-			return &Result[any]{
-				Path:  path,
-				Error: nil,
-				Value: nil,
-			}
+			},
+			Optional: false,
 		},
 	}
 }
 
-func Any(path string) *Schema[any] {
-	return &Schema[any]{
+func Any(path string) *AnySchema[any] {
+	return &AnySchema[any]{&Schema[any]{
 		Parse: func(input any) *Result[any] {
 			if input == nil {
 				return &Result[any]{
@@ -141,16 +135,20 @@ func Any(path string) *Schema[any] {
 				Value: input,
 			}
 		},
-	}
+		Optional: false,
+	}}
 }
 
-func Never(path string) *Schema[any] {
-	return &Schema[any]{
-		Parse: func(input any) *Result[any] {
-			return &Result[any]{
-				Path:  path,
-				Error: ErrInvalidNever,
-			}
+func Never(path string) *NeverSchema[any] {
+	return &NeverSchema[any]{
+		&Schema[any]{
+			Parse: func(input any) *Result[any] {
+				return &Result[any]{
+					Path:  path,
+					Error: ErrInvalidNever,
+				}
+			},
+			Optional: false,
 		},
 	}
 }

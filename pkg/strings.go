@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func (s *Schema[string]) Datetime(offset bool, precision int) *Schema[string] {
+func (s *StringSchema[string]) Datetime(offset bool, precision int) *Schema[string] {
 	return &Schema[string]{
 		Parse: func(input any) *Result[string] {
 			strInput := convertToString(input)
@@ -31,7 +31,7 @@ func (s *Schema[string]) Datetime(offset bool, precision int) *Schema[string] {
 	}
 }
 
-func (s *Schema[string]) Date() *Schema[string] {
+func (s *StringSchema[string]) Date() *Schema[string] {
 	return &Schema[string]{
 		Parse: func(input any) *Result[string] {
 			strInput := convertToString(input)
@@ -50,7 +50,7 @@ func (s *Schema[string]) Date() *Schema[string] {
 	}
 }
 
-func (s *Schema[string]) Time() *Schema[string] {
+func (s *StringSchema[string]) Time() *Schema[string] {
 	return &Schema[string]{
 		Parse: func(input any) *Result[string] {
 			strInput := convertToString(input)
@@ -70,7 +70,7 @@ func (s *Schema[string]) Time() *Schema[string] {
 	}
 }
 
-func (s *Schema[string]) Ip() *Schema[string] {
+func (s *StringSchema[string]) Ip() *Schema[string] {
 	return &Schema[string]{
 		Parse: func(input any) *Result[string] {
 			strInput := convertToString(input)
@@ -88,7 +88,7 @@ func (s *Schema[string]) Ip() *Schema[string] {
 	}
 }
 
-func (s *Schema[string]) Cidr() *Schema[string] {
+func (s *StringSchema[string]) Cidr() *Schema[string] {
 	return &Schema[string]{
 		Parse: func(input any) *Result[string] {
 			strInput := convertToString(input)
@@ -107,7 +107,7 @@ func (s *Schema[string]) Cidr() *Schema[string] {
 	}
 }
 
-func (s *Schema[string]) Min(min int) *Schema[string] {
+func (s *StringSchema[string]) Min(min int) *Schema[string] {
 	return &Schema[string]{
 		Parse: func(input any) *Result[string] {
 			strInput := convertToString(input)
@@ -125,7 +125,7 @@ func (s *Schema[string]) Min(min int) *Schema[string] {
 	}
 }
 
-func (s *Schema[string]) Max(max int) *Schema[string] {
+func (s *StringSchema[string]) Max(max int) *Schema[string] {
 	return &Schema[string]{
 		Parse: func(input any) *Result[string] {
 			strInput := convertToString(input)
@@ -143,7 +143,7 @@ func (s *Schema[string]) Max(max int) *Schema[string] {
 	}
 }
 
-func (s *Schema[string]) Length(exact int) *Schema[string] {
+func (s *StringSchema[string]) Length(exact int) *Schema[string] {
 	return &Schema[string]{
 		Parse: func(input any) *Result[string] {
 			strInput := convertToString(input)
@@ -161,7 +161,7 @@ func (s *Schema[string]) Length(exact int) *Schema[string] {
 	}
 }
 
-func (s *Schema[string]) Email() *Schema[string] {
+func (s *StringSchema[string]) Email() *Schema[string] {
 	return &Schema[string]{
 		Parse: func(input any) *Result[string] {
 			strInput := convertToString(input)
@@ -181,7 +181,7 @@ func (s *Schema[string]) Email() *Schema[string] {
 	}
 }
 
-func (s *Schema[string]) Url() *Schema[string] {
+func (s *StringSchema[string]) Url() *Schema[string] {
 	return &Schema[string]{
 		Parse: func(input any) *Result[string] {
 			strInput := convertToString(input)
@@ -202,7 +202,7 @@ func (s *Schema[string]) Url() *Schema[string] {
 	}
 }
 
-func (s *Schema[string]) Uuid() *Schema[string] {
+func (s *StringSchema[string]) Uuid() *Schema[string] {
 	return &Schema[string]{
 		Parse: func(input any) *Result[string] {
 			strInput := convertToString(input)
@@ -221,7 +221,7 @@ func (s *Schema[string]) Uuid() *Schema[string] {
 	}
 }
 
-func (s *Schema[string]) Includes(substr string) *Schema[string] {
+func (s *StringSchema[string]) Includes(substr string) *Schema[string] {
 	return &Schema[string]{
 		Parse: func(input any) *Result[string] {
 			strInput := convertToString(input)
@@ -240,7 +240,7 @@ func (s *Schema[string]) Includes(substr string) *Schema[string] {
 	}
 }
 
-func (s *Schema[string]) StartsWith(prefix string) *Schema[string] {
+func (s *StringSchema[string]) StartsWith(prefix string) *Schema[string] {
 	return &Schema[string]{
 		Parse: func(input any) *Result[string] {
 			strInput := convertToString(input)
@@ -259,7 +259,7 @@ func (s *Schema[string]) StartsWith(prefix string) *Schema[string] {
 	}
 }
 
-func (s *Schema[string]) EndsWith(suffix string) *Schema[string] {
+func (s *StringSchema[string]) EndsWith(suffix string) *Schema[string] {
 	return &Schema[string]{
 		Parse: func(input any) *Result[string] {
 			strInput := convertToString(input)

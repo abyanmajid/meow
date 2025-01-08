@@ -1,5 +1,7 @@
 package meow
 
+import "fmt"
+
 func Optional[T any](schema *Schema[T]) *Schema[*T] {
 	return &Schema[*T]{
 		Parse: func(input any) *Result[*T] {
@@ -12,6 +14,7 @@ func Optional[T any](schema *Schema[T]) *Schema[*T] {
 
 			result := schema.Parse(input)
 			if result.Error != nil {
+				fmt.Println("2")
 				return &Result[*T]{
 					Error: result.Error,
 				}
@@ -22,5 +25,6 @@ func Optional[T any](schema *Schema[T]) *Schema[*T] {
 				Error: nil,
 			}
 		},
+		Optional: true,
 	}
 }
