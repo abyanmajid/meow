@@ -41,19 +41,24 @@ func String(path string) *Schema[string] {
 func Number(path string) *Schema[float64] {
 	return &Schema[float64]{
 		Parse: func(input any) *Result[float64] {
-			switch input.(type) {
+			switch v := input.(type) {
 			case float32, float64:
-				if math.IsNaN(input.(float64)) {
+				if math.IsNaN(v.(float64)) {
 					return &Result[float64]{
 						Path:  path,
 						Error: ErrInvalidFloat,
 					}
 				}
-
 				return &Result[float64]{
 					Path:  path,
 					Error: nil,
-					Value: input.(float64),
+					Value: v.(float64),
+				}
+			case int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64:
+				return &Result[float64]{
+					Path:  path,
+					Error: nil,
+					Value: float64(reflect.ValueOf(v).Int()),
 				}
 			default:
 				return &Result[float64]{

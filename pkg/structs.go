@@ -21,17 +21,22 @@ func Struct[T any](shape map[string]any) *Schema[T] {
 					return &Result[T]{Error: fmt.Errorf("missing required key: %s", key)}
 				}
 
-				schemaInstance, ok := schema.(*Schema[any])
-				if !ok {
-					return &Result[T]{Error: fmt.Errorf("invalid schema type for key: %s", key)}
+				switch schemaInstance := schema.(type) {
+				case *Schema[string]:
+					fieldResult := schemaInstance.Parse(fieldValue)
+					if fieldResult.Error != nil {
+						return &Result[T]{Error: fmt.Errorf("error in key %s: %v", key, fieldResult.Error)}
+					}
+					result.FieldByName(key).Set(reflect.ValueOf(fieldResult.Value))
+				case *Schema[float64]:
+					fieldResult := schemaInstance.Parse(fieldValue)
+					if fieldResult.Error != nil {
+						return &Result[T]{Error: fmt.Errorf("error in key %s: %v", key, fieldResult.Error)}
+					}
+					result.FieldByName(key).Set(reflect.ValueOf(fieldResult.Value))
+				default:
+					return &Result[T]{Error: fmt.Errorf("unsupported schema type for key: %s", key)}
 				}
-
-				fieldResult := schemaInstance.Parse(fieldValue)
-				if fieldResult.Error != nil {
-					return &Result[T]{Error: fmt.Errorf("error in key %s: %v", key, fieldResult.Error)}
-				}
-
-				result.FieldByName(key).Set(reflect.ValueOf(fieldResult.Value))
 			}
 
 			return &Result[T]{Value: result.Interface().(T)}
