@@ -1,3 +1,3 @@
-module github.com/abyanmajid/meow
+module github.com/abyanmajid/z
 
 go 1.22.4
