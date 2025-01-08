@@ -165,7 +165,7 @@ func (s *MeowSchema[string]) Email() *MeowSchema[string] {
 	return &MeowSchema[string]{
 		Parse: func(input any) *MeowResult[string] {
 			strInput := convertToString(input)
-			// Simple regex for validating email
+
 			re := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
 			if !re.MatchString(strInput) {
 				return &MeowResult[string]{Error: fmt.Errorf("invalid email address")}
@@ -185,10 +185,13 @@ func (s *MeowSchema[string]) Url() *MeowSchema[string] {
 	return &MeowSchema[string]{
 		Parse: func(input any) *MeowResult[string] {
 			strInput := convertToString(input)
-			_, err := time.Parse("2006-01-02T15:04:05Z07:00", strInput)
-			if err != nil {
-				return &MeowResult[string]{Error: fmt.Errorf("invalid url")}
+
+			re := `^(http|https):\/\/[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$`
+			match, err := regexp.MatchString(re, strInput)
+			if err != nil || !match {
+				return &MeowResult[string]{Error: fmt.Errorf("invalid url format")}
 			}
+
 			revertedStr, err := convertFromString[string](strInput)
 			if err != nil {
 				return &MeowResult[string]{Error: fmt.Errorf("invalid url format: %s", err)}
@@ -199,7 +202,7 @@ func (s *MeowSchema[string]) Url() *MeowSchema[string] {
 	}
 }
 
-func (s *MeowSchema[string]) UUID() *MeowSchema[string] {
+func (s *MeowSchema[string]) Uuid() *MeowSchema[string] {
 	return &MeowSchema[string]{
 		Parse: func(input any) *MeowResult[string] {
 			strInput := convertToString(input)

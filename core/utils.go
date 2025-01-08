@@ -2,8 +2,6 @@ package meow
 
 import (
 	"fmt"
-	"strconv"
-	"strings"
 )
 
 func convertToString(value interface{}) string {
@@ -21,17 +19,5 @@ func convertToString(value interface{}) string {
 }
 
 func convertFromString[T any](value string) (any, error) {
-	if intVal, err := strconv.Atoi(value); err == nil {
-		return intVal, nil
-	}
-
-	if floatVal, err := strconv.ParseFloat(value, 64); err == nil {
-		return floatVal, nil
-	}
-
-	if strings.Contains(value, ".") && !strings.Contains(value, "e") {
-		return value, nil
-	}
-
-	return nil, fmt.Errorf("unable to convert string '%s' to a known type", value)
+	return value, nil
 }
