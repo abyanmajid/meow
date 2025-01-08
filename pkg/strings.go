@@ -107,7 +107,7 @@ func (s *MeowSchema[string]) Cidr() *MeowSchema[string] {
 	}
 }
 
-func (s *MeowSchema[string]) MinLength(min int) *MeowSchema[string] {
+func (s *MeowSchema[string]) Min(min int) *MeowSchema[string] {
 	return &MeowSchema[string]{
 		Parse: func(input any) *MeowResult[string] {
 			strInput := convertToString(input)
@@ -125,7 +125,7 @@ func (s *MeowSchema[string]) MinLength(min int) *MeowSchema[string] {
 	}
 }
 
-func (s *MeowSchema[string]) MaxLength(max int) *MeowSchema[string] {
+func (s *MeowSchema[string]) Max(max int) *MeowSchema[string] {
 	return &MeowSchema[string]{
 		Parse: func(input any) *MeowResult[string] {
 			strInput := convertToString(input)
@@ -143,7 +143,7 @@ func (s *MeowSchema[string]) MaxLength(max int) *MeowSchema[string] {
 	}
 }
 
-func (s *MeowSchema[string]) ExactLength(exact int) *MeowSchema[string] {
+func (s *MeowSchema[string]) Length(exact int) *MeowSchema[string] {
 	return &MeowSchema[string]{
 		Parse: func(input any) *MeowResult[string] {
 			strInput := convertToString(input)
