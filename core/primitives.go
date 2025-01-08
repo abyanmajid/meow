@@ -38,27 +38,7 @@ func String(path string) *MeowSchema[string] {
 	}
 }
 
-func Integer(path string) *MeowSchema[int] {
-	return &MeowSchema[int]{
-		Parse: func(input any) *MeowResult[int] {
-			switch input.(type) {
-			case int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64:
-				return &MeowResult[int]{
-					Path:  path,
-					Error: nil,
-					Value: input.(int),
-				}
-			default:
-				return &MeowResult[int]{
-					Path:  path,
-					Error: ErrInvalidInteger,
-				}
-			}
-		},
-	}
-}
-
-func Float(path string) *MeowSchema[float64] {
+func Number(path string) *MeowSchema[float64] {
 	return &MeowSchema[float64]{
 		Parse: func(input any) *MeowResult[float64] {
 			switch input.(type) {

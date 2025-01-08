@@ -2,6 +2,7 @@ package meow
 
 import (
 	"fmt"
+	"strconv"
 )
 
 func convertToString(value interface{}) string {
@@ -19,5 +20,32 @@ func convertToString(value interface{}) string {
 }
 
 func convertFromString[T any](value string) (any, error) {
+	return value, nil
+}
+
+func convertToFloat(input any) float64 {
+	switch v := input.(type) {
+	case float64:
+		return v
+	case float32:
+		return float64(v)
+	case int:
+		return float64(v)
+	case int64:
+		return float64(v)
+	case int32:
+		return float64(v)
+	case string:
+		f, err := strconv.ParseFloat(v, 64)
+		if err != nil {
+			return 0
+		}
+		return f
+	default:
+		return 0
+	}
+}
+
+func convertFromFloat[T any](value float64) (any, error) {
 	return value, nil
 }

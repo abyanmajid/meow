@@ -38,66 +38,7 @@ func (c *PrimitiveCoerce) String(path string) *MeowSchema[string] {
 	}
 }
 
-func (c *PrimitiveCoerce) Integer(path string) *MeowSchema[int] {
-	return &MeowSchema[int]{
-		Parse: func(input any) *MeowResult[int] {
-			var result int
-			switch v := input.(type) {
-			case int:
-				result = v
-			case int8:
-				result = int(v)
-			case int16:
-				result = int(v)
-			case int32:
-				result = int(v)
-			case int64:
-				result = int(v)
-			case uint:
-				result = int(v)
-			case uint8:
-				result = int(v)
-			case uint16:
-				result = int(v)
-			case uint32:
-				result = int(v)
-			case uint64:
-				result = int(v)
-			case float32:
-				result = int(v)
-			case float64:
-				if math.IsNaN(v) || math.IsInf(v, 0) {
-					errMsg := fmt.Sprintf("'%v' is NaN or infinity, cannot convert to integer.", v)
-					return &MeowResult[int]{
-						Path:  path,
-						Error: errors.New(errMsg),
-					}
-				}
-				result = int(v)
-			case bool:
-				if v {
-					result = 1
-				} else {
-					result = 0
-				}
-			case nil:
-				result = 0
-			default:
-				errMsg := fmt.Sprintf("cannot coerce '%v' of type '%s' into an integer.", input, reflect.TypeOf(input))
-				return &MeowResult[int]{
-					Path:  path,
-					Error: errors.New(errMsg),
-				}
-			}
-			return &MeowResult[int]{
-				Path:  path,
-				Value: result,
-			}
-		},
-	}
-}
-
-func (c *PrimitiveCoerce) Float(path string) *MeowSchema[float64] {
+func (c *PrimitiveCoerce) Number(path string) *MeowSchema[float64] {
 	return &MeowSchema[float64]{
 		Parse: func(input any) *MeowResult[float64] {
 			var result float64
