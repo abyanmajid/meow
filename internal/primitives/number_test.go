@@ -4,37 +4,37 @@ import (
 	"math"
 	"testing"
 
-	"github.com/abyanmajid/z/internal/primitives"
+	"github.com/abyanmajid/v/internal/primitives"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestNewNumberSchema(t *testing.T) {
-	schema := primitives.NewNumberSchema("abyan has a majestic cat")
+	schema := primitives.NewNumberSchema[float64]("abyan has a majestic cat")
 	assert.NotNil(t, schema)
-	assert.Equal(t, "abyan has a majestic cat", schema.Base.Path)
-	assert.Empty(t, schema.Base.Rules)
+	assert.Equal(t, "abyan has a majestic cat", schema.Schema.Path)
+	assert.Empty(t, schema.Schema.Rules)
 }
 
 func TestNumberSchema_Parse(t *testing.T) {
-	schema := primitives.NewNumberSchema("abyan has a majestic cat")
+	schema := primitives.NewNumberSchema[float64]("abyan has a majestic cat")
 
 	result := schema.Parse(123.45)
 	assert.True(t, result.Success)
 
 	result = schema.Parse("not a number")
 	assert.False(t, result.Success)
-	assert.Equal(t, "Must be a string.", result.Errors[0])
+	assert.Equal(t, "Must be a number.", result.Errors[0])
 }
 
 func TestNumberSchema_ParseTyped(t *testing.T) {
-	schema := primitives.NewNumberSchema("abyan has a majestic cat")
+	schema := primitives.NewNumberSchema[float64]("abyan has a majestic cat")
 
 	result := schema.ParseTyped(123.45)
 	assert.True(t, result.Success)
 }
 
 func TestNumberSchema_Gt(t *testing.T) {
-	schema := primitives.NewNumberSchema("abyan has a majestic cat").Gt(10)
+	schema := primitives.NewNumberSchema[float64]("abyan has a majestic cat").Gt(10)
 
 	result := schema.ParseTyped(15)
 	assert.True(t, result.Success)
@@ -45,7 +45,7 @@ func TestNumberSchema_Gt(t *testing.T) {
 }
 
 func TestNumberSchema_Gte(t *testing.T) {
-	schema := primitives.NewNumberSchema("abyan has a majestic cat").Gte(10)
+	schema := primitives.NewNumberSchema[float64]("abyan has a majestic cat").Gte(10)
 
 	result := schema.ParseTyped(10)
 	assert.True(t, result.Success)
@@ -56,7 +56,7 @@ func TestNumberSchema_Gte(t *testing.T) {
 }
 
 func TestNumberSchema_Lt(t *testing.T) {
-	schema := primitives.NewNumberSchema("abyan has a majestic cat").Lt(10)
+	schema := primitives.NewNumberSchema[float64]("abyan has a majestic cat").Lt(10)
 
 	result := schema.ParseTyped(5)
 	assert.True(t, result.Success)
@@ -67,7 +67,7 @@ func TestNumberSchema_Lt(t *testing.T) {
 }
 
 func TestNumberSchema_Lte(t *testing.T) {
-	schema := primitives.NewNumberSchema("abyan has a majestic cat").Lte(10)
+	schema := primitives.NewNumberSchema[float64]("abyan has a majestic cat").Lte(10)
 
 	result := schema.ParseTyped(10)
 	assert.True(t, result.Success)
@@ -77,19 +77,8 @@ func TestNumberSchema_Lte(t *testing.T) {
 	assert.Equal(t, "Must be smaller than or equal to 10", result.Errors[0])
 }
 
-func TestNumberSchema_Int(t *testing.T) {
-	schema := primitives.NewNumberSchema("abyan has a majestic cat").Int()
-
-	result := schema.ParseTyped(10)
-	assert.True(t, result.Success)
-
-	result = schema.ParseTyped(10.5)
-	assert.False(t, result.Success)
-	assert.Equal(t, "Must be an integer", result.Errors[0])
-}
-
 func TestNumberSchema_Positive(t *testing.T) {
-	schema := primitives.NewNumberSchema("abyan has a majestic cat").Positive()
+	schema := primitives.NewNumberSchema[float64]("abyan has a majestic cat").Positive()
 
 	result := schema.ParseTyped(10)
 	assert.True(t, result.Success)
@@ -100,7 +89,7 @@ func TestNumberSchema_Positive(t *testing.T) {
 }
 
 func TestNumberSchema_NonNegative(t *testing.T) {
-	schema := primitives.NewNumberSchema("abyan has a majestic cat").NonNegative()
+	schema := primitives.NewNumberSchema[float64]("abyan has a majestic cat").NonNegative()
 
 	result := schema.ParseTyped(10)
 	assert.True(t, result.Success)
@@ -111,7 +100,7 @@ func TestNumberSchema_NonNegative(t *testing.T) {
 }
 
 func TestNumberSchema_Negative(t *testing.T) {
-	schema := primitives.NewNumberSchema("abyan has a majestic cat").Negative()
+	schema := primitives.NewNumberSchema[float64]("abyan has a majestic cat").Negative()
 
 	result := schema.ParseTyped(-10)
 	assert.True(t, result.Success)
@@ -122,7 +111,7 @@ func TestNumberSchema_Negative(t *testing.T) {
 }
 
 func TestNumberSchema_NonPositive(t *testing.T) {
-	schema := primitives.NewNumberSchema("abyan has a majestic cat").NonPositive()
+	schema := primitives.NewNumberSchema[float64]("abyan has a majestic cat").NonPositive()
 
 	result := schema.ParseTyped(-10)
 	assert.True(t, result.Success)
@@ -133,7 +122,7 @@ func TestNumberSchema_NonPositive(t *testing.T) {
 }
 
 func TestNumberSchema_MultipleOf(t *testing.T) {
-	schema := primitives.NewNumberSchema("abyan has a majestic cat").MultipleOf(5)
+	schema := primitives.NewNumberSchema[float64]("abyan has a majestic cat").MultipleOf(5)
 
 	result := schema.ParseTyped(10)
 	assert.True(t, result.Success)
@@ -144,7 +133,7 @@ func TestNumberSchema_MultipleOf(t *testing.T) {
 }
 
 func TestNumberSchema_Finite(t *testing.T) {
-	schema := primitives.NewNumberSchema("abyan has a majestic cat").Finite()
+	schema := primitives.NewNumberSchema[float64]("abyan has a majestic cat").Finite()
 
 	result := schema.ParseTyped(10)
 	assert.True(t, result.Success)

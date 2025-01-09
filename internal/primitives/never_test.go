@@ -11,8 +11,8 @@ func TestNewNeverSchema(t *testing.T) {
 	schema := NewNeverSchema(path)
 
 	assert.NotNil(t, schema)
-	assert.Equal(t, path, schema.Base.Path)
-	assert.Empty(t, schema.Base.Rules)
+	assert.Equal(t, path, schema.Schema.Path)
+	assert.Empty(t, schema.Schema.Rules)
 }
 
 func TestNeverSchema_Parse(t *testing.T) {

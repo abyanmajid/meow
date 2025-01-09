@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"regexp"
 
-	core "github.com/abyanmajid/z/internal"
-	"github.com/abyanmajid/z/internal/primitives"
+	core "github.com/abyanmajid/v/internal"
+	"github.com/abyanmajid/v/internal/primitives"
 )
 
 type CoerceStringSchema struct {

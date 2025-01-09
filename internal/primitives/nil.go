@@ -1,14 +1,14 @@
 package primitives
 
-import core "github.com/abyanmajid/z/internal"
+import core "github.com/abyanmajid/v/internal"
 
 type NilSchema struct {
-	Base *core.Schema[interface{}]
+	Schema *core.Schema[interface{}]
 }
 
 func NewNilSchema(path string) *NilSchema {
 	return &NilSchema{
-		Base: &core.Schema[interface{}]{
+		Schema: &core.Schema[interface{}]{
 			Path:  path,
 			Rules: []core.Rule[interface{}]{},
 		},
@@ -17,8 +17,8 @@ func NewNilSchema(path string) *NilSchema {
 
 func (s *NilSchema) Parse(value interface{}) *core.Result[interface{}] {
 	if value != nil {
-		return s.Base.NewErrorResult("Value must be nil.")
+		return s.Schema.NewErrorResult("Value must be nil.")
 	}
 
-	return s.Base.NewSuccessResult()
+	return s.Schema.NewSuccessResult()
 }

@@ -1,14 +1,14 @@
 package primitives
 
-import core "github.com/abyanmajid/z/internal"
+import core "github.com/abyanmajid/v/internal"
 
 type AnySchema struct {
-	Base *core.Schema[interface{}]
+	Schema *core.Schema[interface{}]
 }
 
 func NewAnySchema(path string) *AnySchema {
 	return &AnySchema{
-		Base: &core.Schema[interface{}]{
+		Schema: &core.Schema[interface{}]{
 			Path:  path,
 			Rules: []core.Rule[interface{}]{},
 		},
@@ -16,7 +16,7 @@ func NewAnySchema(path string) *AnySchema {
 }
 
 func (s *AnySchema) Parse(value interface{}) *core.Result[interface{}] {
-	result := s.Base.NewSuccessResult()
+	result := s.Schema.NewSuccessResult()
 	result.Value = value
 	return result
 }

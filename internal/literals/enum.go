@@ -1,10 +1,10 @@
 package literals
 
-import core "github.com/abyanmajid/z/internal"
+import core "github.com/abyanmajid/v/internal"
 
 type EnumSchema[T comparable] struct {
-	Base  *core.Schema[T]
-	Enums map[T]struct{}
+	Schema *core.Schema[T]
+	Enums  map[T]struct{}
 }
 
 func NewEnumSchema[T comparable](path string, allowedValues []T) *EnumSchema[T] {
@@ -14,7 +14,7 @@ func NewEnumSchema[T comparable](path string, allowedValues []T) *EnumSchema[T] 
 	}
 
 	return &EnumSchema[T]{
-		Base: &core.Schema[T]{
+		Schema: &core.Schema[T]{
 			Path:  path,
 			Rules: []core.Rule[T]{},
 		},
@@ -25,12 +25,12 @@ func NewEnumSchema[T comparable](path string, allowedValues []T) *EnumSchema[T] 
 func (s *EnumSchema[T]) Parse(value interface{}) *core.Result[T] {
 	typedValue, ok := value.(T)
 	if !ok {
-		return s.Base.NewErrorResult("Invalid type.")
+		return s.Schema.NewErrorResult("Invalid type.")
 	}
 
 	if _, exists := s.Enums[typedValue]; !exists {
-		return s.Base.NewErrorResult("Value is not in the allowed enum set.")
+		return s.Schema.NewErrorResult("Value is not in the allowed enum set.")
 	}
 
-	return s.Base.ParseGeneric(typedValue)
+	return s.Schema.ParseGeneric(typedValue)
 }

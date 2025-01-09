@@ -1,4 +1,4 @@
-module github.com/abyanmajid/z
+module github.com/abyanmajid/v
 
 go 1.22.4
 

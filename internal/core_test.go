@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	core "github.com/abyanmajid/z/internal"
+	core "github.com/abyanmajid/v/internal"
 	"github.com/stretchr/testify/assert"
 )
 

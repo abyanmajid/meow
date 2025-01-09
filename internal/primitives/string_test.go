@@ -4,14 +4,14 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/abyanmajid/z/internal/primitives"
+	"github.com/abyanmajid/v/internal/primitives"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestNewStringSchema(t *testing.T) {
 	schema := primitives.NewStringSchema("abyan has a majestic cat")
 	assert.NotNil(t, schema)
-	assert.Equal(t, "abyan has a majestic cat", schema.Base.Path)
+	assert.Equal(t, "abyan has a majestic cat", schema.Schema.Path)
 }
 
 func TestStringSchema_Parse(t *testing.T) {

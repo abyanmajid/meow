@@ -4,86 +4,81 @@ import (
 	"fmt"
 	"strconv"
 
-	core "github.com/abyanmajid/z/internal"
-	"github.com/abyanmajid/z/internal/primitives"
+	core "github.com/abyanmajid/v/internal"
+	"github.com/abyanmajid/v/internal/primitives"
 )
 
-type CoerceNumberSchema struct {
-	Inner *primitives.NumberSchema
+type CoerceNumberSchema[T primitives.Number] struct {
+	Inner *primitives.NumberSchema[T]
 }
 
-func NewCoerceNumberSchema(path string) *CoerceNumberSchema {
-	return &CoerceNumberSchema{
-		Inner: primitives.NewNumberSchema(path),
+func NewCoerceNumberSchema[T primitives.Number](path string) *CoerceNumberSchema[T] {
+	return &CoerceNumberSchema[T]{
+		Inner: primitives.NewNumberSchema[T](path),
 	}
 }
 
-func (c *CoerceNumberSchema) Parse(value interface{}) *core.Result[float64] {
+func (c *CoerceNumberSchema[T]) Parse(value interface{}) *core.Result[T] {
 	coercedValue := fmt.Sprint(value)
 
 	parsedValue, err := strconv.ParseFloat(coercedValue, 64)
 	if err != nil {
-		return c.Inner.Base.NewErrorResult("Must be a value that can be casted to a number")
+		return c.Inner.Schema.NewErrorResult("Must be a value that can be casted to a number")
 	}
 
-	return c.ParseTyped(parsedValue)
+	return c.ParseTyped(T(parsedValue))
 }
 
-func (c *CoerceNumberSchema) ParseTyped(value float64) *core.Result[float64] {
+func (c *CoerceNumberSchema[T]) ParseTyped(value T) *core.Result[T] {
 	return c.Inner.ParseTyped(value)
 }
 
-func (c *CoerceNumberSchema) Gt(lowerBound float64) *CoerceNumberSchema {
+func (c *CoerceNumberSchema[T]) Gt(lowerBound T) *CoerceNumberSchema[T] {
 	c.Inner.Gt(lowerBound)
 	return c
 }
 
-func (c *CoerceNumberSchema) Gte(lowerBound float64) *CoerceNumberSchema {
+func (c *CoerceNumberSchema[T]) Gte(lowerBound T) *CoerceNumberSchema[T] {
 	c.Inner.Gte(lowerBound)
 	return c
 }
 
-func (c *CoerceNumberSchema) Lt(upperBound float64) *CoerceNumberSchema {
+func (c *CoerceNumberSchema[T]) Lt(upperBound T) *CoerceNumberSchema[T] {
 	c.Inner.Lt(upperBound)
 	return c
 }
 
-func (c *CoerceNumberSchema) Lte(upperBound float64) *CoerceNumberSchema {
+func (c *CoerceNumberSchema[T]) Lte(upperBound T) *CoerceNumberSchema[T] {
 	c.Inner.Lte(upperBound)
 	return c
 }
 
-func (c *CoerceNumberSchema) Int() *CoerceNumberSchema {
-	c.Inner.Int()
-	return c
-}
-
-func (c *CoerceNumberSchema) Positive() *CoerceNumberSchema {
+func (c *CoerceNumberSchema[T]) Positive() *CoerceNumberSchema[T] {
 	c.Inner.Positive()
 	return c
 }
 
-func (c *CoerceNumberSchema) NonNegative() *CoerceNumberSchema {
+func (c *CoerceNumberSchema[T]) NonNegative() *CoerceNumberSchema[T] {
 	c.Inner.NonNegative()
 	return c
 }
 
-func (c *CoerceNumberSchema) Negative() *CoerceNumberSchema {
+func (c *CoerceNumberSchema[T]) Negative() *CoerceNumberSchema[T] {
 	c.Inner.Negative()
 	return c
 }
 
-func (c *CoerceNumberSchema) NonPositive() *CoerceNumberSchema {
+func (c *CoerceNumberSchema[T]) NonPositive() *CoerceNumberSchema[T] {
 	c.Inner.NonPositive()
 	return c
 }
 
-func (c *CoerceNumberSchema) MultipleOf(step float64) *CoerceNumberSchema {
+func (c *CoerceNumberSchema[T]) MultipleOf(step T) *CoerceNumberSchema[T] {
 	c.Inner.MultipleOf(step)
 	return c
 }
 
-func (c *CoerceNumberSchema) Finite() *CoerceNumberSchema {
+func (c *CoerceNumberSchema[T]) Finite() *CoerceNumberSchema[T] {
 	c.Inner.Finite()
 	return c
 }

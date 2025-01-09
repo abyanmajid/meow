@@ -3,8 +3,8 @@ package coercion
 import (
 	"strings"
 
-	core "github.com/abyanmajid/z/internal"
-	"github.com/abyanmajid/z/internal/primitives"
+	core "github.com/abyanmajid/v/internal"
+	"github.com/abyanmajid/v/internal/primitives"
 )
 
 type CoerceBooleanSchema struct {
@@ -29,7 +29,7 @@ func (c *CoerceBooleanSchema) Parse(value interface{}) *core.Result[bool] {
 		} else if v == "false" {
 			coercedValue = false
 		} else {
-			return c.Inner.Base.NewErrorResult("Must be a value that can be casted to a boolean")
+			return c.Inner.Schema.NewErrorResult("Must be a value that can be casted to a boolean")
 		}
 	case int:
 		if v == 0 {
@@ -37,10 +37,10 @@ func (c *CoerceBooleanSchema) Parse(value interface{}) *core.Result[bool] {
 		} else if v == 1 {
 			coercedValue = true
 		} else {
-			return c.Inner.Base.NewErrorResult("Must be a value that can be casted to a boolean")
+			return c.Inner.Schema.NewErrorResult("Must be a value that can be casted to a boolean")
 		}
 	default:
-		return c.Inner.Base.NewErrorResult("Must be a value that can be casted to a boolean")
+		return c.Inner.Schema.NewErrorResult("Must be a value that can be casted to a boolean")
 	}
 
 	return c.ParseTyped(coercedValue)

@@ -11,9 +11,9 @@ func TestNewBooleanSchema(t *testing.T) {
 	schema := NewBooleanSchema(path)
 
 	assert.NotNil(t, schema)
-	assert.Equal(t, path, schema.Base.Path)
+	assert.Equal(t, path, schema.Schema.Path)
 
-	assert.Empty(t, schema.Base.Rules)
+	assert.Empty(t, schema.Schema.Rules)
 }
 
 func TestBooleanSchema_Parse(t *testing.T) {

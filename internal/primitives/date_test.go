@@ -12,8 +12,8 @@ func TestNewDateSchema(t *testing.T) {
 	schema := NewDateSchema("abyan has a majestic cat")
 
 	assert.NotNil(t, schema)
-	assert.Equal(t, "abyan has a majestic cat", schema.Base.Path)
-	assert.Empty(t, schema.Base.Rules)
+	assert.Equal(t, "abyan has a majestic cat", schema.Schema.Path)
+	assert.Empty(t, schema.Schema.Rules)
 }
 
 func TestDateSchema_Parse(t *testing.T) {

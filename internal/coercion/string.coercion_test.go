@@ -4,7 +4,7 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/abyanmajid/z/internal/coercion"
+	"github.com/abyanmajid/v/internal/coercion"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -12,7 +12,7 @@ func TestNewCoerceStringSchema(t *testing.T) {
 	path := "abyan has a majestic cat"
 	schema := coercion.NewCoerceStringSchema(path)
 	assert.NotNil(t, schema)
-	assert.Equal(t, path, schema.Inner.Base.Path)
+	assert.Equal(t, path, schema.Inner.Schema.Path)
 }
 
 func TestCoerceStringSchema_Parse(t *testing.T) {

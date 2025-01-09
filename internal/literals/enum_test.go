@@ -10,7 +10,7 @@ func TestNewEnumSchema(t *testing.T) {
 	allowedValues := []string{"value1", "value2", "value3"}
 	enumSchema := NewEnumSchema("abyan has a majestic cat", allowedValues)
 
-	assert.Equal(t, "abyan has a majestic cat", enumSchema.Base.Path)
+	assert.Equal(t, "abyan has a majestic cat", enumSchema.Schema.Path)
 	assert.Len(t, enumSchema.Enums, len(allowedValues))
 	for _, value := range allowedValues {
 		_, exists := enumSchema.Enums[value]

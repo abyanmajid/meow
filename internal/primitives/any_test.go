@@ -11,8 +11,8 @@ func TestNewAnySchema(t *testing.T) {
 	schema := NewAnySchema(path)
 
 	assert.NotNil(t, schema)
-	assert.Equal(t, path, schema.Base.Path)
-	assert.Empty(t, schema.Base.Rules)
+	assert.Equal(t, path, schema.Schema.Path)
+	assert.Empty(t, schema.Schema.Rules)
 }
 
 func TestAnySchema_Parse(t *testing.T) {

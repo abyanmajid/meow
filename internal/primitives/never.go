@@ -1,14 +1,14 @@
 package primitives
 
-import core "github.com/abyanmajid/z/internal"
+import core "github.com/abyanmajid/v/internal"
 
 type NeverSchema struct {
-	Base *core.Schema[interface{}]
+	Schema *core.Schema[interface{}]
 }
 
 func NewNeverSchema(path string) *NeverSchema {
 	return &NeverSchema{
-		Base: &core.Schema[interface{}]{
+		Schema: &core.Schema[interface{}]{
 			Path:  path,
 			Rules: []core.Rule[interface{}]{},
 		},
@@ -16,5 +16,5 @@ func NewNeverSchema(path string) *NeverSchema {
 }
 
 func (s *NeverSchema) Parse(value interface{}) *core.Result[interface{}] {
-	return s.Base.NewErrorResult("Value is not allowed.")
+	return s.Schema.NewErrorResult("Value is not allowed.")
 }

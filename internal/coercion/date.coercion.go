@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	core "github.com/abyanmajid/z/internal"
-	"github.com/abyanmajid/z/internal/primitives"
+	core "github.com/abyanmajid/v/internal"
+	"github.com/abyanmajid/v/internal/primitives"
 )
 
 type CoerceDateSchema struct {
@@ -26,17 +26,17 @@ func (c *CoerceDateSchema) Parse(value interface{}) *core.Result[time.Time] {
 	case string:
 		parsedTime, err := time.Parse(time.RFC3339, v)
 		if err != nil {
-			return c.Inner.Base.NewErrorResult(fmt.Sprintf("Must be a valid ISO 8601 date string, got: %v", v))
+			return c.Inner.Schema.NewErrorResult(fmt.Sprintf("Must be a valid ISO 8601 date string, got: %v", v))
 		}
 		coercedValue = parsedTime
 	case int, int64, float64:
 		timestamp, ok := CoerceToInt64(v)
 		if !ok {
-			return c.Inner.Base.NewErrorResult(fmt.Sprintf("Must be a valid Unix timestamp, got: %v", v))
+			return c.Inner.Schema.NewErrorResult(fmt.Sprintf("Must be a valid Unix timestamp, got: %v", v))
 		}
 		coercedValue = time.Unix(timestamp, 0)
 	default:
-		return c.Inner.Base.NewErrorResult("Must be a value that can be casted to a date")
+		return c.Inner.Schema.NewErrorResult("Must be a value that can be casted to a date")
 	}
 
 	return c.ParseTyped(coercedValue)
