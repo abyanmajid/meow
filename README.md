@@ -29,33 +29,33 @@ type Applicant struct {
 var unis = []string{"USYD", "UMELB", "UNSW"}
 
 func isValidApplicant(a *Applicant) bool {
-  // Name must be a string [1, 128] characters long.
+  	// Name must be a string [1, 128] characters long.
 	name := v.String("Name").Min(1).Max(128).Parse(a.Name)
 
-  // Email must be of valid email format
+  	// Email must be of valid email format
 	email := v.String("Email").Email().Parse(a.Email)
 
-  // URL must be of valid URL format
+  	// URL must be of valid URL format
 	linkedIn := v.String("LinkedIn").URL().Parse(a.LinkedIn)
 
-  // University must only be "USYD", "UMELB", "UNSW"
+  	// University must only be "USYD", "UMELB", "UNSW"
 	university := v.Enum("University", unis).Parse(a.University)
 
-  // WAM is an integer
-  // - greater than or equal (GTE) to 0, and
-  // - less than or equal to (LTE) 100
+  	// WAM is an integer
+  	// - greater than or equal (GTE) to 0, and
+  	// - less than or equal to (LTE) 100
 	wam := v.Integer("WAM").Gte(0).Lte(100).Parse(a.WAM)
 
-  // Has graduated? Yes (true) or No (false)?
+  	// Has graduated? Yes (true) or No (false)?
 	hasGraduated := v.Boolean("HasGraduated").Parse(a.HasGraduated)
 
-  // Collection of courseworks taken
+  	// Collection of courseworks taken
 	courseworks := v.Array("Courseworks", v.String("Coursework").Schema).Parse(a.Courseworks)
 
-  // Day and time born following standard ISO format
+  	// Day and time born following standard ISO format
 	born := v.Date("Born").Max(time.Now()).Parse(a.Born)
 
-  // Assert whether all validation checks has passed
+  	// Assert whether all validation checks has passed
 	return name.Ok && email.Ok && linkedIn.Ok && university.Ok &&
 		wam.Ok && hasGraduated.Ok && courseworks.Ok && born.Ok
 }
