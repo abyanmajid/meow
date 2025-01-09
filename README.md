@@ -9,7 +9,7 @@ Simple schema validation toolkit for Golang with Zod-like API.
 Add `v` to your Golang project:
 
 ```
-go get -u github.com/abyanmajid/v
+go get -u github.com/abyanmajid/v@v0.5.0
 ```
 
 Start composing schemas, and use them to validate your data:
