@@ -1,3 +1,3 @@
 # Examples
 
-Some examples and recipes for the `meow` package.
+Some examples and recipes for the `x` package.
