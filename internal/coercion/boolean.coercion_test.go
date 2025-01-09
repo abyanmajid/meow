@@ -30,9 +30,9 @@ func TestCoerceBooleanSchema_Parse(t *testing.T) {
 	for _, test := range tests {
 		result := schema.Parse(test.input)
 		if test.isError {
-			assert.False(t, result.Success)
+			assert.False(t, result.Ok)
 		} else {
-			assert.True(t, result.Success)
+			assert.True(t, result.Ok)
 			assert.Equal(t, test.expected, result.Value)
 		}
 	}
@@ -51,7 +51,7 @@ func TestCoerceBooleanSchema_ParseTyped(t *testing.T) {
 
 	for _, test := range tests {
 		result := schema.ParseTyped(test.input)
-		assert.True(t, result.Success)
+		assert.True(t, result.Ok)
 		assert.Equal(t, test.expected, result.Value)
 	}
 }

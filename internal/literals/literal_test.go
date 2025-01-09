@@ -20,19 +20,19 @@ func TestLiteralSchema_Parse(t *testing.T) {
 
 	t.Run("Valid value", func(t *testing.T) {
 		result := schema.Parse("testValue")
-		assert.True(t, result.Success)
+		assert.True(t, result.Ok)
 		assert.Empty(t, result.Errors)
 	})
 
 	t.Run("Invalid type", func(t *testing.T) {
 		result := schema.Parse(123)
-		assert.False(t, result.Success)
+		assert.False(t, result.Ok)
 		assert.Equal(t, "Invalid type.", result.Errors[0])
 	})
 
 	t.Run("Invalid value", func(t *testing.T) {
 		result := schema.Parse("wrongValue")
-		assert.False(t, result.Success)
+		assert.False(t, result.Ok)
 		assert.Equal(t, "Value must be testValue.", result.Errors[0])
 	})
 }

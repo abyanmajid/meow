@@ -34,9 +34,9 @@ func TestEnumSchema_Parse(t *testing.T) {
 	for _, test := range tests {
 		result := enumSchema.Parse(test.input)
 		if test.expected == "" {
-			assert.True(t, result.Success)
+			assert.True(t, result.Ok)
 		} else {
-			assert.False(t, result.Success)
+			assert.False(t, result.Ok)
 			assert.Contains(t, result.Errors, test.expected)
 		}
 	}

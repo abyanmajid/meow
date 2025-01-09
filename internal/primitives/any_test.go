@@ -23,5 +23,5 @@ func TestAnySchema_Parse(t *testing.T) {
 
 	assert.NotNil(t, result)
 	assert.Equal(t, value, result.Value)
-	assert.True(t, result.Success)
+	assert.True(t, result.Ok)
 }

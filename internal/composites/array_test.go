@@ -24,19 +24,19 @@ func TestArraySchema_Parse(t *testing.T) {
 
 	t.Run("Valid array", func(t *testing.T) {
 		result := arraySchema.Parse([]interface{}{1, 2, 3})
-		assert.True(t, result.Success)
+		assert.True(t, result.Ok)
 		assert.Equal(t, []int{1, 2, 3}, result.Value)
 	})
 
 	t.Run("Invalid array element type", func(t *testing.T) {
 		result := arraySchema.Parse([]interface{}{1, "two", 3})
-		assert.False(t, result.Success)
+		assert.False(t, result.Ok)
 		assert.Contains(t, result.Errors, "Element at index 1 must be of type int")
 	})
 
 	t.Run("Not an array", func(t *testing.T) {
 		result := arraySchema.Parse("not an array")
-		assert.False(t, result.Success)
+		assert.False(t, result.Ok)
 		assert.Contains(t, result.Errors, "Must be an array")
 	})
 }
@@ -47,7 +47,7 @@ func TestArraySchema_ParseTyped(t *testing.T) {
 
 	t.Run("Valid typed array", func(t *testing.T) {
 		result := arraySchema.ParseTyped([]int{1, 2, 3})
-		assert.True(t, result.Success)
+		assert.True(t, result.Ok)
 		assert.Equal(t, []int{1, 2, 3}, result.Value)
 	})
 }
@@ -58,12 +58,12 @@ func TestArraySchema_Nonempty(t *testing.T) {
 
 	t.Run("Non-empty array", func(t *testing.T) {
 		result := arraySchema.ParseTyped([]int{1})
-		assert.True(t, result.Success)
+		assert.True(t, result.Ok)
 	})
 
 	t.Run("Empty array", func(t *testing.T) {
 		result := arraySchema.Parse([]int{})
-		assert.False(t, result.Success)
+		assert.False(t, result.Ok)
 		assert.Contains(t, result.Errors, "Array must not be empty")
 	})
 }
@@ -74,12 +74,12 @@ func TestArraySchema_Min(t *testing.T) {
 
 	t.Run("Array meets min length", func(t *testing.T) {
 		result := arraySchema.ParseTyped([]int{1, 2})
-		assert.True(t, result.Success)
+		assert.True(t, result.Ok)
 	})
 
 	t.Run("Array does not meet min length", func(t *testing.T) {
 		result := arraySchema.ParseTyped([]int{1})
-		assert.False(t, result.Success)
+		assert.False(t, result.Ok)
 		assert.Contains(t, result.Errors, "Array must have at least 2 elements")
 	})
 }
@@ -90,12 +90,12 @@ func TestArraySchema_Max(t *testing.T) {
 
 	t.Run("Array meets max length", func(t *testing.T) {
 		result := arraySchema.ParseTyped([]int{1, 2})
-		assert.True(t, result.Success)
+		assert.True(t, result.Ok)
 	})
 
 	t.Run("Array exceeds max length", func(t *testing.T) {
 		result := arraySchema.ParseTyped([]int{1, 2, 3})
-		assert.False(t, result.Success)
+		assert.False(t, result.Ok)
 		assert.Contains(t, result.Errors, "Array must have at most 2 elements")
 	})
 }
@@ -106,12 +106,12 @@ func TestArraySchema_Length(t *testing.T) {
 
 	t.Run("Array meets exact length", func(t *testing.T) {
 		result := arraySchema.ParseTyped([]int{1, 2})
-		assert.True(t, result.Success)
+		assert.True(t, result.Ok)
 	})
 
 	t.Run("Array does not meet exact length", func(t *testing.T) {
 		result := arraySchema.ParseTyped([]int{1})
-		assert.False(t, result.Success)
+		assert.False(t, result.Ok)
 		assert.Contains(t, result.Errors, "Array must have exactly 2 elements")
 	})
 }

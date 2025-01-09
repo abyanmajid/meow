@@ -1,10 +1,10 @@
 package core
 
 type Result[T any] struct {
-	Success bool
-	Value   T
-	Path    string
-	Errors  []string
+	Ok     bool
+	Value  T
+	Path   string
+	Errors []string
 }
 
 type Rule[T any] func(T) *Result[T]
@@ -24,16 +24,16 @@ func (s *Schema[T]) AddRule(rule Rule[T]) {
 
 func (s *Schema[T]) NewSuccessResult() *Result[T] {
 	return &Result[T]{
-		Success: true,
-		Path:    s.Path,
+		Ok:   true,
+		Path: s.Path,
 	}
 }
 
 func (s *Schema[T]) NewErrorResult(errorMessage string) *Result[T] {
 	return &Result[T]{
-		Success: false,
-		Path:    s.Path,
-		Errors:  []string{errorMessage},
+		Ok:     false,
+		Path:   s.Path,
+		Errors: []string{errorMessage},
 	}
 }
 
@@ -41,8 +41,8 @@ func (s *Schema[T]) ParseGeneric(value T) *Result[T] {
 	finalResult := s.NewSuccessResult()
 	for _, assertRule := range s.Rules {
 		assertionResult := assertRule(value)
-		if !assertionResult.Success {
-			finalResult.Success = false
+		if !assertionResult.Ok {
+			finalResult.Ok = false
 			finalResult.Errors = append(finalResult.Errors, assertionResult.Errors...)
 		}
 	}

@@ -21,13 +21,13 @@ func TestBooleanSchema_Parse(t *testing.T) {
 
 	t.Run("valid boolean", func(t *testing.T) {
 		result := schema.Parse(true)
-		assert.True(t, result.Success)
+		assert.True(t, result.Ok)
 		assert.Equal(t, true, result.Value)
 	})
 
 	t.Run("invalid boolean", func(t *testing.T) {
 		result := schema.Parse("not a boolean")
-		assert.False(t, result.Success)
+		assert.False(t, result.Ok)
 		assert.Contains(t, result.Errors, "Must be a boolean")
 	})
 }
@@ -36,6 +36,6 @@ func TestBooleanSchema_ParseTyped(t *testing.T) {
 	schema := NewBooleanSchema("abyan has a majestic cat")
 
 	result := schema.ParseTyped(true)
-	assert.True(t, result.Success)
+	assert.True(t, result.Ok)
 	assert.Equal(t, true, result.Value)
 }

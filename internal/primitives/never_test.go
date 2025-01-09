@@ -20,6 +20,6 @@ func TestNeverSchema_Parse(t *testing.T) {
 	result := schema.Parse("any value")
 
 	assert.NotNil(t, result)
-	assert.False(t, result.Success)
+	assert.False(t, result.Ok)
 	assert.Contains(t, result.Errors, "Value is not allowed.")
 }

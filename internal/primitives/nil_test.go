@@ -21,13 +21,13 @@ func TestNilSchema_Parse(t *testing.T) {
 
 	t.Run("Value is nil", func(t *testing.T) {
 		result := schema.Parse(nil)
-		assert.True(t, result.Success)
+		assert.True(t, result.Ok)
 		assert.Empty(t, result.Errors)
 	})
 
 	t.Run("Value is not nil", func(t *testing.T) {
 		result := schema.Parse("not nil")
-		assert.False(t, result.Success)
+		assert.False(t, result.Ok)
 		assert.Equal(t, "Value must be nil.", result.Errors[0])
 	})
 }

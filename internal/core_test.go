@@ -33,7 +33,7 @@ func TestNewErrorResult(t *testing.T) {
 	errorMessage := "an eror occurred"
 	result := schema.NewErrorResult(errorMessage)
 
-	assert.False(t, result.Success)
+	assert.False(t, result.Ok)
 	assert.Equal(t, "abyan has a majestic cat", result.Path)
 	assert.Equal(t, []string{errorMessage}, result.Errors)
 }
@@ -49,19 +49,19 @@ func TestParseGeneric(t *testing.T) {
 	}
 
 	result := schema.ParseGeneric(42)
-	assert.True(t, result.Success)
+	assert.True(t, result.Ok)
 	assert.Equal(t, 42, result.Value)
 	assert.Empty(t, result.Errors)
 
 	schema.AddRule(successRule)
 	result = schema.ParseGeneric(42)
-	assert.True(t, result.Success)
+	assert.True(t, result.Ok)
 	assert.Equal(t, 42, result.Value)
 	assert.Empty(t, result.Errors)
 
 	schema.AddRule(errorRule)
 	result = schema.ParseGeneric(42)
-	assert.False(t, result.Success)
+	assert.False(t, result.Ok)
 	assert.Equal(t, 42, result.Value)
 	assert.Equal(t, []string{"error with value 42"}, result.Errors)
 }

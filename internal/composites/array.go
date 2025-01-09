@@ -36,14 +36,14 @@ func (s *ArraySchema[T]) Parse(value interface{}) *core.Result[[]T] {
 		parsedValue, ok := element.(T)
 
 		if !ok {
-			finalResult.Success = false
+			finalResult.Ok = false
 			finalResult.Errors = append(finalResult.Errors, fmt.Sprintf("Element at index %d must be of type %T", i, parsedValue))
 			continue
 		}
 
 		innerResult := s.Inner.ParseGeneric(parsedValue)
-		if !innerResult.Success {
-			finalResult.Success = false
+		if !innerResult.Ok {
+			finalResult.Ok = false
 			finalResult.Errors = append(finalResult.Errors, innerResult.Errors...)
 		} else {
 			parsedArray = append(parsedArray, parsedValue)
@@ -51,8 +51,8 @@ func (s *ArraySchema[T]) Parse(value interface{}) *core.Result[[]T] {
 	}
 
 	baseResult := s.Schema.ParseGeneric(parsedArray)
-	if !baseResult.Success {
-		finalResult.Success = false
+	if !baseResult.Ok {
+		finalResult.Ok = false
 		finalResult.Errors = append(finalResult.Errors, baseResult.Errors...)
 	}
 
@@ -65,16 +65,16 @@ func (s *ArraySchema[T]) ParseTyped(value []T) *core.Result[[]T] {
 
 	for i, v := range value {
 		innerResult := s.Inner.ParseGeneric(v)
-		if !innerResult.Success {
+		if !innerResult.Ok {
 			errorMessage := fmt.Sprintf("Element at index %d: %s", i, innerResult.Errors)
-			finalResult.Success = false
+			finalResult.Ok = false
 			finalResult.Errors = append(finalResult.Errors, errorMessage)
 		}
 	}
 
 	baseResult := s.Schema.ParseGeneric(value)
-	if !baseResult.Success {
-		finalResult.Success = false
+	if !baseResult.Ok {
+		finalResult.Ok = false
 		finalResult.Errors = append(finalResult.Errors, baseResult.Errors...)
 	}
 

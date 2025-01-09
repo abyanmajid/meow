@@ -54,8 +54,8 @@ func TestCoerceDateSchema_Min(t *testing.T) {
 	schema.Min(minDate)
 	resultValid := schema.Parse("2030-01-01T00:00:00Z")
 	resultInvalid := schema.Parse("2010-01-01T00:00:00Z")
-	assert.True(t, resultValid.Success)
-	assert.False(t, resultInvalid.Success)
+	assert.True(t, resultValid.Ok)
+	assert.False(t, resultInvalid.Ok)
 }
 
 func TestCoerceDateSchema_Max(t *testing.T) {
@@ -64,8 +64,8 @@ func TestCoerceDateSchema_Max(t *testing.T) {
 	schema.Max(minDate)
 	resultValid := schema.Parse("2010-01-01T00:00:00Z")
 	resultInvalid := schema.Parse("2030-01-01T00:00:00Z")
-	assert.True(t, resultValid.Success)
-	assert.False(t, resultInvalid.Success)
+	assert.True(t, resultValid.Ok)
+	assert.False(t, resultInvalid.Ok)
 }
 
 func TestCoerceToInt64(t *testing.T) {
