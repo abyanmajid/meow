@@ -1,4 +1,4 @@
-package x_internal
+package core
 
 type Result[T any] struct {
 	Success bool
@@ -10,7 +10,7 @@ type Result[T any] struct {
 type Rule[T any] func(T) *Result[T]
 
 type Coerce[T any] struct {
-	Schema *Schema[T]
+	Inner *Schema[T]
 }
 
 type Schema[T any] struct {

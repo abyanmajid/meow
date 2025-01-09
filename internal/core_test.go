@@ -1,16 +1,16 @@
-package x_internal_test
+package core_test
 
 import (
 	"fmt"
 	"testing"
 
-	x_internal "github.com/abyanmajid/z/internal"
+	core "github.com/abyanmajid/z/internal"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestAddRule(t *testing.T) {
-	schema := &x_internal.Schema[int]{Path: "test123"}
-	rule := func(value int) *x_internal.Result[int] {
+	schema := &core.Schema[int]{Path: "test123"}
+	rule := func(value int) *core.Result[int] {
 		return schema.NewErrorResult(fmt.Sprintf("im sad %v", value))
 	}
 
@@ -20,7 +20,7 @@ func TestAddRule(t *testing.T) {
 }
 
 func TestNewSuccessResult(t *testing.T) {
-	schema := &x_internal.Schema[int]{Path: "im sad"}
+	schema := &core.Schema[int]{Path: "im sad"}
 	result := schema.NewSuccessResult()
 
 	assert.True(t, true)
@@ -29,7 +29,7 @@ func TestNewSuccessResult(t *testing.T) {
 }
 
 func TestNewErrorResult(t *testing.T) {
-	schema := &x_internal.Schema[int]{Path: "im sad"}
+	schema := &core.Schema[int]{Path: "im sad"}
 	errorMessage := "an eror occurred"
 	result := schema.NewErrorResult(errorMessage)
 
