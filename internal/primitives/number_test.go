@@ -9,14 +9,14 @@ import (
 )
 
 func TestNewNumberSchema(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad")
+	schema := primitives.NewNumberSchema("abyan has a majestic cat")
 	assert.NotNil(t, schema)
-	assert.Equal(t, "im sad", schema.Base.Path)
+	assert.Equal(t, "abyan has a majestic cat", schema.Base.Path)
 	assert.Empty(t, schema.Base.Rules)
 }
 
 func TestNumberSchema_Parse(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad")
+	schema := primitives.NewNumberSchema("abyan has a majestic cat")
 
 	result := schema.Parse(123.45)
 	assert.True(t, result.Success)
@@ -27,14 +27,14 @@ func TestNumberSchema_Parse(t *testing.T) {
 }
 
 func TestNumberSchema_ParseTyped(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad")
+	schema := primitives.NewNumberSchema("abyan has a majestic cat")
 
 	result := schema.ParseTyped(123.45)
 	assert.True(t, result.Success)
 }
 
 func TestNumberSchema_Gt(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").Gt(10)
+	schema := primitives.NewNumberSchema("abyan has a majestic cat").Gt(10)
 
 	result := schema.ParseTyped(15)
 	assert.True(t, result.Success)
@@ -45,7 +45,7 @@ func TestNumberSchema_Gt(t *testing.T) {
 }
 
 func TestNumberSchema_Gte(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").Gte(10)
+	schema := primitives.NewNumberSchema("abyan has a majestic cat").Gte(10)
 
 	result := schema.ParseTyped(10)
 	assert.True(t, result.Success)
@@ -56,7 +56,7 @@ func TestNumberSchema_Gte(t *testing.T) {
 }
 
 func TestNumberSchema_Lt(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").Lt(10)
+	schema := primitives.NewNumberSchema("abyan has a majestic cat").Lt(10)
 
 	result := schema.ParseTyped(5)
 	assert.True(t, result.Success)
@@ -67,7 +67,7 @@ func TestNumberSchema_Lt(t *testing.T) {
 }
 
 func TestNumberSchema_Lte(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").Lte(10)
+	schema := primitives.NewNumberSchema("abyan has a majestic cat").Lte(10)
 
 	result := schema.ParseTyped(10)
 	assert.True(t, result.Success)
@@ -78,7 +78,7 @@ func TestNumberSchema_Lte(t *testing.T) {
 }
 
 func TestNumberSchema_Int(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").Int()
+	schema := primitives.NewNumberSchema("abyan has a majestic cat").Int()
 
 	result := schema.ParseTyped(10)
 	assert.True(t, result.Success)
@@ -89,7 +89,7 @@ func TestNumberSchema_Int(t *testing.T) {
 }
 
 func TestNumberSchema_Positive(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").Positive()
+	schema := primitives.NewNumberSchema("abyan has a majestic cat").Positive()
 
 	result := schema.ParseTyped(10)
 	assert.True(t, result.Success)
@@ -100,7 +100,7 @@ func TestNumberSchema_Positive(t *testing.T) {
 }
 
 func TestNumberSchema_NonNegative(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").NonNegative()
+	schema := primitives.NewNumberSchema("abyan has a majestic cat").NonNegative()
 
 	result := schema.ParseTyped(10)
 	assert.True(t, result.Success)
@@ -111,7 +111,7 @@ func TestNumberSchema_NonNegative(t *testing.T) {
 }
 
 func TestNumberSchema_Negative(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").Negative()
+	schema := primitives.NewNumberSchema("abyan has a majestic cat").Negative()
 
 	result := schema.ParseTyped(-10)
 	assert.True(t, result.Success)
@@ -122,7 +122,7 @@ func TestNumberSchema_Negative(t *testing.T) {
 }
 
 func TestNumberSchema_NonPositive(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").NonPositive()
+	schema := primitives.NewNumberSchema("abyan has a majestic cat").NonPositive()
 
 	result := schema.ParseTyped(-10)
 	assert.True(t, result.Success)
@@ -133,7 +133,7 @@ func TestNumberSchema_NonPositive(t *testing.T) {
 }
 
 func TestNumberSchema_MultipleOf(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").MultipleOf(5)
+	schema := primitives.NewNumberSchema("abyan has a majestic cat").MultipleOf(5)
 
 	result := schema.ParseTyped(10)
 	assert.True(t, result.Success)
@@ -144,7 +144,7 @@ func TestNumberSchema_MultipleOf(t *testing.T) {
 }
 
 func TestNumberSchema_Finite(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").Finite()
+	schema := primitives.NewNumberSchema("abyan has a majestic cat").Finite()
 
 	result := schema.ParseTyped(10)
 	assert.True(t, result.Success)

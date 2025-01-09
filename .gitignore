@@ -9,6 +9,7 @@ coverage.*
 *.dll
 *.so
 *.dylib
+test/
 
 # Test binary, built with `go test -c`
 *.test

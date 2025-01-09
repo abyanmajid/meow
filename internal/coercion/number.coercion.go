@@ -23,7 +23,7 @@ func (cnc *CoerceNumberSchema) Parse(value interface{}) *core.Result[float64] {
 
 	parsedValue, err := strconv.ParseFloat(coercedValue, 64)
 	if err != nil {
-		return cnc.Inner.Base.NewErrorResult("Invalid number format")
+		return cnc.Inner.Base.NewErrorResult("Must be a value that can be casted to a number")
 	}
 
 	return cnc.ParseTyped(parsedValue)

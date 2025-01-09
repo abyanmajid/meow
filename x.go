@@ -13,12 +13,12 @@ func Number(path string) *primitives.NumberSchema {
 	return primitives.NewNumberSchema(path)
 }
 
-type CoerceSchema struct {
+type coercionExports struct {
 	String func(path string) *coercion.CoerceStringSchema
 	Number func(path string) *coercion.CoerceNumberSchema
 }
 
-var Coerce = CoerceSchema{
+var Coerce = coercionExports{
 	String: func(path string) *coercion.CoerceStringSchema {
 		return coercion.NewCoerceStringSchema(path)
 	},

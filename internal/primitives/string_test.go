@@ -9,13 +9,13 @@ import (
 )
 
 func TestNewStringSchema(t *testing.T) {
-	schema := primitives.NewStringSchema("im sad")
+	schema := primitives.NewStringSchema("abyan has a majestic cat")
 	assert.NotNil(t, schema)
-	assert.Equal(t, "im sad", schema.Base.Path)
+	assert.Equal(t, "abyan has a majestic cat", schema.Base.Path)
 }
 
 func TestStringSchema_Parse(t *testing.T) {
-	schema := primitives.NewStringSchema("im sad")
+	schema := primitives.NewStringSchema("abyan has a majestic cat")
 	result := schema.Parse("test")
 	assert.True(t, result.Success)
 
@@ -25,7 +25,7 @@ func TestStringSchema_Parse(t *testing.T) {
 }
 
 func TestStringSchema_Min(t *testing.T) {
-	schema := primitives.NewStringSchema("im sad").Min(5)
+	schema := primitives.NewStringSchema("abyan has a majestic cat").Min(5)
 	result := schema.Parse("test")
 	assert.False(t, result.Success)
 	assert.Contains(t, result.Errors, "Must be longer than 5 characters in length")
@@ -35,7 +35,7 @@ func TestStringSchema_Min(t *testing.T) {
 }
 
 func TestStringSchema_Max(t *testing.T) {
-	schema := primitives.NewStringSchema("im sad").Max(5)
+	schema := primitives.NewStringSchema("abyan has a majestic cat").Max(5)
 	result := schema.Parse("testing")
 	assert.False(t, result.Success)
 	assert.Contains(t, result.Errors, "Must be shorter than 5 characters in length")
@@ -45,7 +45,7 @@ func TestStringSchema_Max(t *testing.T) {
 }
 
 func TestStringSchema_Length(t *testing.T) {
-	schema := primitives.NewStringSchema("im sad").Length(4)
+	schema := primitives.NewStringSchema("abyan has a majestic cat").Length(4)
 	result := schema.Parse("test")
 	assert.True(t, result.Success)
 
@@ -55,7 +55,7 @@ func TestStringSchema_Length(t *testing.T) {
 }
 
 func TestStringSchema_Email(t *testing.T) {
-	schema := primitives.NewStringSchema("im sad").Email()
+	schema := primitives.NewStringSchema("abyan has a majestic cat").Email()
 	result := schema.Parse("test@example.com")
 	assert.True(t, result.Success)
 
@@ -65,7 +65,7 @@ func TestStringSchema_Email(t *testing.T) {
 }
 
 func TestStringSchema_URL(t *testing.T) {
-	schema := primitives.NewStringSchema("im sad").URL()
+	schema := primitives.NewStringSchema("abyan has a majestic cat").URL()
 	result := schema.Parse("http://example.com")
 	assert.True(t, result.Success)
 
@@ -76,7 +76,7 @@ func TestStringSchema_URL(t *testing.T) {
 
 func TestStringSchema_Regex(t *testing.T) {
 	regex := regexp.MustCompile(`^[a-z]+$`)
-	schema := primitives.NewStringSchema("im sad").Regex(regex)
+	schema := primitives.NewStringSchema("abyan has a majestic cat").Regex(regex)
 	result := schema.Parse("test")
 	assert.True(t, result.Success)
 
@@ -86,7 +86,7 @@ func TestStringSchema_Regex(t *testing.T) {
 }
 
 func TestStringSchema_Includes(t *testing.T) {
-	schema := primitives.NewStringSchema("im sad").Includes("test")
+	schema := primitives.NewStringSchema("abyan has a majestic cat").Includes("test")
 	result := schema.Parse("this is a test")
 	assert.True(t, result.Success)
 
@@ -96,7 +96,7 @@ func TestStringSchema_Includes(t *testing.T) {
 }
 
 func TestStringSchema_StartsWith(t *testing.T) {
-	schema := primitives.NewStringSchema("im sad").StartsWith("test")
+	schema := primitives.NewStringSchema("abyan has a majestic cat").StartsWith("test")
 	result := schema.Parse("test string")
 	assert.True(t, result.Success)
 
@@ -106,7 +106,7 @@ func TestStringSchema_StartsWith(t *testing.T) {
 }
 
 func TestStringSchema_EndsWith(t *testing.T) {
-	schema := primitives.NewStringSchema("im sad").EndsWith("test")
+	schema := primitives.NewStringSchema("abyan has a majestic cat").EndsWith("test")
 	result := schema.Parse("string test")
 	assert.True(t, result.Success)
 
@@ -116,7 +116,7 @@ func TestStringSchema_EndsWith(t *testing.T) {
 }
 
 func TestStringSchema_Date(t *testing.T) {
-	schema := primitives.NewStringSchema("im sad").Date()
+	schema := primitives.NewStringSchema("abyan has a majestic cat").Date()
 	result := schema.Parse("2023-10-10")
 	assert.True(t, result.Success)
 
@@ -126,7 +126,7 @@ func TestStringSchema_Date(t *testing.T) {
 }
 
 func TestStringSchema_Time(t *testing.T) {
-	schema := primitives.NewStringSchema("im sad").Time()
+	schema := primitives.NewStringSchema("abyan has a majestic cat").Time()
 	result := schema.Parse("15:04:05")
 	assert.True(t, result.Success)
 
@@ -136,7 +136,7 @@ func TestStringSchema_Time(t *testing.T) {
 }
 
 func TestStringSchema_IP(t *testing.T) {
-	schema := primitives.NewStringSchema("im sad").IP()
+	schema := primitives.NewStringSchema("abyan has a majestic cat").IP()
 	result := schema.Parse("192.168.0.1")
 	assert.True(t, result.Success)
 
@@ -146,7 +146,7 @@ func TestStringSchema_IP(t *testing.T) {
 }
 
 func TestStringSchema_CIDR(t *testing.T) {
-	schema := primitives.NewStringSchema("im sad").CIDR()
+	schema := primitives.NewStringSchema("abyan has a majestic cat").CIDR()
 	result := schema.Parse("192.168.0.0/24")
 	assert.True(t, result.Success)
 
