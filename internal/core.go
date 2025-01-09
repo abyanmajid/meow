@@ -47,5 +47,7 @@ func (s *Schema[T]) ParseGeneric(value T) *Result[T] {
 		}
 	}
 
+	finalResult.Value = value
+
 	return finalResult
 }

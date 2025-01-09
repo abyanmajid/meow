@@ -141,13 +141,3 @@ func (nc *NumberSchema) Finite(errorMessage string) *NumberSchema {
 	})
 	return nc
 }
-
-func (nc *NumberSchema) Safe(errorMessage string) *NumberSchema {
-	nc.Base.AddRule(func(value float64) *core.Result[float64] {
-		if value < math.MinInt64 || value > math.MaxInt64 {
-			return nc.Base.NewErrorResult(errorMessage)
-		}
-		return nc.Base.NewSuccessResult()
-	})
-	return nc
-}
