@@ -1,4 +1,4 @@
-package core
+package x_internal
 
 type Result[T any] struct {
 	Success bool

@@ -1,4 +1,4 @@
-package core
+package x_internal
 
 import (
 	"net"

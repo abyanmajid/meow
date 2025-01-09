@@ -1,7 +1,7 @@
 package x
 
-import core "github.com/abyanmajid/z/internal"
+import x_internal "github.com/abyanmajid/z/internal"
 
-func String(path string) *core.StringSchema {
-	return core.NewStringSchema(path)
+func String(path string) *x_internal.StringSchema {
+	return x_internal.NewStringSchema(path)
 }
