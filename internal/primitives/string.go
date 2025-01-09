@@ -177,3 +177,58 @@ func (s *StringSchema) CIDR() *StringSchema {
 	})
 	return s
 }
+
+func (s *StringSchema) UUID() *StringSchema {
+	s.Base.AddRule(func(value string) *core.Result[string] {
+		uuidRegex := `^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$`
+		if !regexp.MustCompile(uuidRegex).MatchString(value) {
+			return s.Base.NewErrorResult("Must be a valid UUID")
+		}
+		return s.Base.NewSuccessResult()
+	})
+	return s
+}
+
+func (s *StringSchema) NanoID() *StringSchema {
+	s.Base.AddRule(func(value string) *core.Result[string] {
+		nanoidRegex := `^[a-zA-Z0-9_-]{21}$`
+		if !regexp.MustCompile(nanoidRegex).MatchString(value) {
+			return s.Base.NewErrorResult("Must be a valid NanoID")
+		}
+		return s.Base.NewSuccessResult()
+	})
+	return s
+}
+
+func (s *StringSchema) CUID() *StringSchema {
+	s.Base.AddRule(func(value string) *core.Result[string] {
+		cuidRegex := `^c[0-9a-z]{24}$`
+		if !regexp.MustCompile(cuidRegex).MatchString(value) {
+			return s.Base.NewErrorResult("Must be a valid CUID")
+		}
+		return s.Base.NewSuccessResult()
+	})
+	return s
+}
+
+func (s *StringSchema) CUID2() *StringSchema {
+	s.Base.AddRule(func(value string) *core.Result[string] {
+		cuid2Regex := `^[a-z][a-z0-9]*$`
+		if !regexp.MustCompile(cuid2Regex).MatchString(value) {
+			return s.Base.NewErrorResult("Must be a valid CUID2")
+		}
+		return s.Base.NewSuccessResult()
+	})
+	return s
+}
+
+func (s *StringSchema) ULID() *StringSchema {
+	s.Base.AddRule(func(value string) *core.Result[string] {
+		ulidRegex := `^[0-9A-HJKMNP-TV-Z]{26}$`
+		if !regexp.MustCompile(ulidRegex).MatchString(value) {
+			return s.Base.NewErrorResult("Must be a valid ULID")
+		}
+		return s.Base.NewSuccessResult()
+	})
+	return s
+}

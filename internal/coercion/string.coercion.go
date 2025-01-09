@@ -91,3 +91,28 @@ func (c *CoerceStringSchema) CIDR() *CoerceStringSchema {
 	c.Inner.CIDR()
 	return c
 }
+
+func (c *CoerceStringSchema) UUID() *CoerceStringSchema {
+	c.Inner.UUID()
+	return c
+}
+
+func (c *CoerceStringSchema) NanoID() *CoerceStringSchema {
+	c.Inner.NanoID()
+	return c
+}
+
+func (c *CoerceStringSchema) CUID() *CoerceStringSchema {
+	c.Inner.CUID()
+	return c
+}
+
+func (c *CoerceStringSchema) CUID2() *CoerceStringSchema {
+	c.Inner.CUID2()
+	return c
+}
+
+func (c *CoerceStringSchema) ULID() *CoerceStringSchema {
+	c.Inner.ULID()
+	return c
+}

@@ -120,3 +120,37 @@ func TestCoerceStringSchema_CIDR(t *testing.T) {
 	result := schema.ParseTyped("192.168.0.0/16")
 	assert.True(t, result.Success)
 }
+func TestCoerceStringSchema_UUID(t *testing.T) {
+	schema := coercion.NewCoerceStringSchema("abyan has a majestic cat")
+	schema.UUID()
+	result := schema.ParseTyped("123e4567-e89b-12d3-a456-426614174000")
+	assert.True(t, result.Success)
+}
+
+func TestCoerceStringSchema_NanoID(t *testing.T) {
+	schema := coercion.NewCoerceStringSchema("abyan has a majestic cat")
+	schema.NanoID()
+	result := schema.ParseTyped("1234567890abcdef12345")
+	assert.True(t, result.Success)
+}
+
+func TestCoerceStringSchema_CUID(t *testing.T) {
+	schema := coercion.NewCoerceStringSchema("abyan has a majestic cat")
+	schema.CUID()
+	result := schema.ParseTyped("c123456789012345678901234")
+	assert.True(t, result.Success)
+}
+
+func TestCoerceStringSchema_CUID2(t *testing.T) {
+	schema := coercion.NewCoerceStringSchema("abyan has a majestic cat")
+	schema.CUID2()
+	result := schema.ParseTyped("c1234567890abcdef")
+	assert.True(t, result.Success)
+}
+
+func TestCoerceStringSchema_ULID(t *testing.T) {
+	schema := coercion.NewCoerceStringSchema("abyan has a majestic cat")
+	schema.ULID()
+	result := schema.ParseTyped("01ARZ3NDEKTSV4RRFFQ69G5FAV")
+	assert.True(t, result.Success)
+}

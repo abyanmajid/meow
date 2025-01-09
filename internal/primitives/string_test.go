@@ -154,3 +154,52 @@ func TestStringSchema_CIDR(t *testing.T) {
 	assert.False(t, result.Success)
 	assert.Contains(t, result.Errors, "Must be of valid CIDR notation")
 }
+func TestStringSchema_UUID(t *testing.T) {
+	schema := primitives.NewStringSchema("abyan has a majestic cat").UUID()
+	result := schema.Parse("123e4567-e89b-12d3-a456-426614174000")
+	assert.True(t, result.Success)
+
+	result = schema.Parse("invalid-uuid")
+	assert.False(t, result.Success)
+	assert.Contains(t, result.Errors, "Must be a valid UUID")
+}
+
+func TestStringSchema_NanoID(t *testing.T) {
+	schema := primitives.NewStringSchema("abyan has a majestic cat").NanoID()
+	result := schema.Parse("1234567890abcdef12345")
+	assert.True(t, result.Success)
+
+	result = schema.Parse("invalid-nanoid")
+	assert.False(t, result.Success)
+	assert.Contains(t, result.Errors, "Must be a valid NanoID")
+}
+
+func TestStringSchema_CUID(t *testing.T) {
+	schema := primitives.NewStringSchema("abyan has a majestic cat").CUID()
+	result := schema.Parse("c123456789012345678901234")
+	assert.True(t, result.Success)
+
+	result = schema.Parse("invalid-cuid")
+	assert.False(t, result.Success)
+	assert.Contains(t, result.Errors, "Must be a valid CUID")
+}
+
+func TestStringSchema_CUID2(t *testing.T) {
+	schema := primitives.NewStringSchema("abyan has a majestic cat").CUID2()
+	result := schema.Parse("cuid2example")
+	assert.True(t, result.Success)
+
+	result = schema.Parse("InvalidCUID2")
+	assert.False(t, result.Success)
+	assert.Contains(t, result.Errors, "Must be a valid CUID2")
+}
+
+func TestStringSchema_ULID(t *testing.T) {
+	schema := primitives.NewStringSchema("abyan has a majestic cat").ULID()
+	result := schema.Parse("01ARZ3NDEKTSV4RRFFQ69G5FAV")
+	assert.True(t, result.Success)
+
+	result = schema.Parse("invalid-ulid")
+	assert.False(t, result.Success)
+	assert.Contains(t, result.Errors, "Must be a valid ULID")
+}
