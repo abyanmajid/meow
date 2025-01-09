@@ -18,72 +18,72 @@ func NewCoerceNumberSchema(path string) *CoerceNumberSchema {
 	}
 }
 
-func (cnc *CoerceNumberSchema) Parse(value interface{}) *core.Result[float64] {
+func (c *CoerceNumberSchema) Parse(value interface{}) *core.Result[float64] {
 	coercedValue := fmt.Sprint(value)
 
 	parsedValue, err := strconv.ParseFloat(coercedValue, 64)
 	if err != nil {
-		return cnc.Inner.Base.NewErrorResult("Must be a value that can be casted to a number")
+		return c.Inner.Base.NewErrorResult("Must be a value that can be casted to a number")
 	}
 
-	return cnc.ParseTyped(parsedValue)
+	return c.ParseTyped(parsedValue)
 }
 
-func (cnc *CoerceNumberSchema) ParseTyped(value float64) *core.Result[float64] {
-	return cnc.Inner.ParseTyped(value)
+func (c *CoerceNumberSchema) ParseTyped(value float64) *core.Result[float64] {
+	return c.Inner.ParseTyped(value)
 }
 
-func (cnc *CoerceNumberSchema) Gt(lowerBound float64) *CoerceNumberSchema {
-	cnc.Inner.Gt(lowerBound)
-	return cnc
+func (c *CoerceNumberSchema) Gt(lowerBound float64) *CoerceNumberSchema {
+	c.Inner.Gt(lowerBound)
+	return c
 }
 
-func (cnc *CoerceNumberSchema) Gte(lowerBound float64) *CoerceNumberSchema {
-	cnc.Inner.Gte(lowerBound)
-	return cnc
+func (c *CoerceNumberSchema) Gte(lowerBound float64) *CoerceNumberSchema {
+	c.Inner.Gte(lowerBound)
+	return c
 }
 
-func (cnc *CoerceNumberSchema) Lt(upperBound float64) *CoerceNumberSchema {
-	cnc.Inner.Lt(upperBound)
-	return cnc
+func (c *CoerceNumberSchema) Lt(upperBound float64) *CoerceNumberSchema {
+	c.Inner.Lt(upperBound)
+	return c
 }
 
-func (cnc *CoerceNumberSchema) Lte(upperBound float64) *CoerceNumberSchema {
-	cnc.Inner.Lte(upperBound)
-	return cnc
+func (c *CoerceNumberSchema) Lte(upperBound float64) *CoerceNumberSchema {
+	c.Inner.Lte(upperBound)
+	return c
 }
 
-func (cnc *CoerceNumberSchema) Int() *CoerceNumberSchema {
-	cnc.Inner.Int()
-	return cnc
+func (c *CoerceNumberSchema) Int() *CoerceNumberSchema {
+	c.Inner.Int()
+	return c
 }
 
-func (cnc *CoerceNumberSchema) Positive() *CoerceNumberSchema {
-	cnc.Inner.Positive()
-	return cnc
+func (c *CoerceNumberSchema) Positive() *CoerceNumberSchema {
+	c.Inner.Positive()
+	return c
 }
 
-func (cnc *CoerceNumberSchema) NonNegative() *CoerceNumberSchema {
-	cnc.Inner.NonNegative()
-	return cnc
+func (c *CoerceNumberSchema) NonNegative() *CoerceNumberSchema {
+	c.Inner.NonNegative()
+	return c
 }
 
-func (cnc *CoerceNumberSchema) Negative() *CoerceNumberSchema {
-	cnc.Inner.Negative()
-	return cnc
+func (c *CoerceNumberSchema) Negative() *CoerceNumberSchema {
+	c.Inner.Negative()
+	return c
 }
 
-func (cnc *CoerceNumberSchema) NonPositive() *CoerceNumberSchema {
-	cnc.Inner.NonPositive()
-	return cnc
+func (c *CoerceNumberSchema) NonPositive() *CoerceNumberSchema {
+	c.Inner.NonPositive()
+	return c
 }
 
-func (cnc *CoerceNumberSchema) MultipleOf(step float64) *CoerceNumberSchema {
-	cnc.Inner.MultipleOf(step)
-	return cnc
+func (c *CoerceNumberSchema) MultipleOf(step float64) *CoerceNumberSchema {
+	c.Inner.MultipleOf(step)
+	return c
 }
 
-func (cnc *CoerceNumberSchema) Finite() *CoerceNumberSchema {
-	cnc.Inner.Finite()
-	return cnc
+func (c *CoerceNumberSchema) Finite() *CoerceNumberSchema {
+	c.Inner.Finite()
+	return c
 }

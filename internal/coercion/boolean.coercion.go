@@ -17,7 +17,7 @@ func NewCoerceBooleanSchema(path string) *CoerceBooleanSchema {
 	}
 }
 
-func (cnc *CoerceBooleanSchema) Parse(value interface{}) *core.Result[bool] {
+func (c *CoerceBooleanSchema) Parse(value interface{}) *core.Result[bool] {
 	var coercedValue bool
 	switch v := value.(type) {
 	case bool:
@@ -29,7 +29,7 @@ func (cnc *CoerceBooleanSchema) Parse(value interface{}) *core.Result[bool] {
 		} else if v == "false" {
 			coercedValue = false
 		} else {
-			return cnc.Inner.Base.NewErrorResult("Must be a value that can be casted to a boolean")
+			return c.Inner.Base.NewErrorResult("Must be a value that can be casted to a boolean")
 		}
 	case int:
 		if v == 0 {
@@ -37,15 +37,15 @@ func (cnc *CoerceBooleanSchema) Parse(value interface{}) *core.Result[bool] {
 		} else if v == 1 {
 			coercedValue = true
 		} else {
-			return cnc.Inner.Base.NewErrorResult("Must be a value that can be casted to a boolean")
+			return c.Inner.Base.NewErrorResult("Must be a value that can be casted to a boolean")
 		}
 	default:
-		return cnc.Inner.Base.NewErrorResult("Must be a value that can be casted to a boolean")
+		return c.Inner.Base.NewErrorResult("Must be a value that can be casted to a boolean")
 	}
 
-	return cnc.ParseTyped(coercedValue)
+	return c.ParseTyped(coercedValue)
 }
 
-func (cnc *CoerceBooleanSchema) ParseTyped(value bool) *core.Result[bool] {
-	return cnc.Inner.ParseTyped(value)
+func (c *CoerceBooleanSchema) ParseTyped(value bool) *core.Result[bool] {
+	return c.Inner.ParseTyped(value)
 }

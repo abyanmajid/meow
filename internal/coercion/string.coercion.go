@@ -18,76 +18,76 @@ func NewCoerceStringSchema(path string) *CoerceStringSchema {
 	}
 }
 
-func (csc *CoerceStringSchema) Parse(value interface{}) *core.Result[string] {
+func (c *CoerceStringSchema) Parse(value interface{}) *core.Result[string] {
 	coercedValue := fmt.Sprint(value)
-	return csc.ParseTyped(coercedValue)
+	return c.ParseTyped(coercedValue)
 }
 
-func (csc *CoerceStringSchema) ParseTyped(value string) *core.Result[string] {
-	return csc.Inner.ParseTyped(value)
+func (c *CoerceStringSchema) ParseTyped(value string) *core.Result[string] {
+	return c.Inner.ParseTyped(value)
 }
 
-func (csc *CoerceStringSchema) Min(minLength int) *CoerceStringSchema {
-	csc.Inner.Min(minLength)
-	return csc
+func (c *CoerceStringSchema) Min(minLength int) *CoerceStringSchema {
+	c.Inner.Min(minLength)
+	return c
 }
 
-func (csc *CoerceStringSchema) Max(maxLength int) *CoerceStringSchema {
-	csc.Inner.Max(maxLength)
-	return csc
+func (c *CoerceStringSchema) Max(maxLength int) *CoerceStringSchema {
+	c.Inner.Max(maxLength)
+	return c
 }
 
-func (csc *CoerceStringSchema) Length(length int) *CoerceStringSchema {
-	csc.Inner.Length(length)
-	return csc
+func (c *CoerceStringSchema) Length(length int) *CoerceStringSchema {
+	c.Inner.Length(length)
+	return c
 }
 
-func (csc *CoerceStringSchema) Email() *CoerceStringSchema {
-	csc.Inner.Email()
-	return csc
+func (c *CoerceStringSchema) Email() *CoerceStringSchema {
+	c.Inner.Email()
+	return c
 }
 
-func (csc *CoerceStringSchema) URL() *CoerceStringSchema {
-	csc.Inner.URL()
-	return csc
+func (c *CoerceStringSchema) URL() *CoerceStringSchema {
+	c.Inner.URL()
+	return c
 }
 
-func (csc *CoerceStringSchema) Regex(regex *regexp.Regexp) *CoerceStringSchema {
-	csc.Inner.Regex(regex)
-	return csc
+func (c *CoerceStringSchema) Regex(regex *regexp.Regexp) *CoerceStringSchema {
+	c.Inner.Regex(regex)
+	return c
 }
 
-func (csc *CoerceStringSchema) Includes(substr string) *CoerceStringSchema {
-	csc.Inner.Includes(substr)
-	return csc
+func (c *CoerceStringSchema) Includes(substr string) *CoerceStringSchema {
+	c.Inner.Includes(substr)
+	return c
 }
 
-func (csc *CoerceStringSchema) StartsWith(prefix string) *CoerceStringSchema {
-	csc.Inner.StartsWith(prefix)
-	return csc
+func (c *CoerceStringSchema) StartsWith(prefix string) *CoerceStringSchema {
+	c.Inner.StartsWith(prefix)
+	return c
 }
 
-func (csc *CoerceStringSchema) EndsWith(suffix string) *CoerceStringSchema {
-	csc.Inner.EndsWith(suffix)
-	return csc
+func (c *CoerceStringSchema) EndsWith(suffix string) *CoerceStringSchema {
+	c.Inner.EndsWith(suffix)
+	return c
 }
 
-func (csc *CoerceStringSchema) Date() *CoerceStringSchema {
-	csc.Inner.Date()
-	return csc
+func (c *CoerceStringSchema) Date() *CoerceStringSchema {
+	c.Inner.Date()
+	return c
 }
 
-func (csc *CoerceStringSchema) Time() *CoerceStringSchema {
-	csc.Inner.Time()
-	return csc
+func (c *CoerceStringSchema) Time() *CoerceStringSchema {
+	c.Inner.Time()
+	return c
 }
 
-func (csc *CoerceStringSchema) IP() *CoerceStringSchema {
-	csc.Inner.IP()
-	return csc
+func (c *CoerceStringSchema) IP() *CoerceStringSchema {
+	c.Inner.IP()
+	return c
 }
 
-func (csc *CoerceStringSchema) CIDR() *CoerceStringSchema {
-	csc.Inner.CIDR()
-	return csc
+func (c *CoerceStringSchema) CIDR() *CoerceStringSchema {
+	c.Inner.CIDR()
+	return c
 }

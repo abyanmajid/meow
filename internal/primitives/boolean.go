@@ -15,15 +15,15 @@ func NewBooleanSchema(path string) *BooleanSchema {
 	}
 }
 
-func (nc *BooleanSchema) Parse(value interface{}) *core.Result[bool] {
+func (s *BooleanSchema) Parse(value interface{}) *core.Result[bool] {
 	valueBool, isBool := value.(bool)
 	if !isBool {
-		return nc.Base.NewErrorResult("Must be a boolean")
+		return s.Base.NewErrorResult("Must be a boolean")
 	}
 
-	return nc.Base.ParseGeneric(valueBool)
+	return s.Base.ParseGeneric(valueBool)
 }
 
-func (nc *BooleanSchema) ParseTyped(value bool) *core.Result[bool] {
-	return nc.Base.ParseGeneric(value)
+func (s *BooleanSchema) ParseTyped(value bool) *core.Result[bool] {
+	return s.Base.ParseGeneric(value)
 }
