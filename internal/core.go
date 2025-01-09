@@ -36,3 +36,16 @@ func (s *Schema[T]) NewErrorResult(errorMessage string) *Result[T] {
 		Errors:  []string{errorMessage},
 	}
 }
+
+func (s *Schema[T]) ParseGeneric(value T) *Result[T] {
+	finalResult := s.NewSuccessResult()
+	for _, assertRule := range s.Rules {
+		assertionResult := assertRule(value)
+		if !assertionResult.Success {
+			finalResult.Success = false
+			finalResult.Errors = append(finalResult.Errors, assertionResult.Errors...)
+		}
+	}
+
+	return finalResult
+}

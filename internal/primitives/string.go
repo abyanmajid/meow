@@ -29,20 +29,11 @@ func (sc *StringSchema) Parse(value interface{}) *core.Result[string] {
 		return sc.Base.NewErrorResult("Must be a string.")
 	}
 
-	return sc.ParseTyped(valueStr)
+	return sc.Base.ParseGeneric(valueStr)
 }
 
 func (sc *StringSchema) ParseTyped(value string) *core.Result[string] {
-	finalResult := sc.Base.NewSuccessResult()
-	for _, assertRule := range sc.Base.Rules {
-		assertionResult := assertRule(value)
-		if !assertionResult.Success {
-			finalResult.Success = false
-			finalResult.Errors = append(finalResult.Errors, assertionResult.Errors...)
-		}
-	}
-
-	return finalResult
+	return sc.Base.ParseGeneric(value)
 }
 
 func (sc *StringSchema) Min(minLength int, errorMessage string) *StringSchema {
