@@ -27,67 +27,67 @@ func (csc *CoerceStringSchema) ParseTyped(value string) *core.Result[string] {
 	return csc.Inner.ParseTyped(value)
 }
 
-func (csc *CoerceStringSchema) Min(minLength int, errorMessage string) *CoerceStringSchema {
-	csc.Inner.Min(minLength, errorMessage)
+func (csc *CoerceStringSchema) Min(minLength int) *CoerceStringSchema {
+	csc.Inner.Min(minLength)
 	return csc
 }
 
-func (csc *CoerceStringSchema) Max(maxLength int, errorMessage string) *CoerceStringSchema {
-	csc.Inner.Max(maxLength, errorMessage)
+func (csc *CoerceStringSchema) Max(maxLength int) *CoerceStringSchema {
+	csc.Inner.Max(maxLength)
 	return csc
 }
 
-func (csc *CoerceStringSchema) Length(length int, errorMessage string) *CoerceStringSchema {
-	csc.Inner.Length(length, errorMessage)
+func (csc *CoerceStringSchema) Length(length int) *CoerceStringSchema {
+	csc.Inner.Length(length)
 	return csc
 }
 
-func (csc *CoerceStringSchema) Email(errorMessage string) *CoerceStringSchema {
-	csc.Inner.Email(errorMessage)
+func (csc *CoerceStringSchema) Email() *CoerceStringSchema {
+	csc.Inner.Email()
 	return csc
 }
 
-func (csc *CoerceStringSchema) URL(errorMessage string) *CoerceStringSchema {
-	csc.Inner.URL(errorMessage)
+func (csc *CoerceStringSchema) URL() *CoerceStringSchema {
+	csc.Inner.URL()
 	return csc
 }
 
-func (csc *CoerceStringSchema) Regex(regex *regexp.Regexp, errorMessage string) *CoerceStringSchema {
-	csc.Inner.Regex(regex, errorMessage)
+func (csc *CoerceStringSchema) Regex(regex *regexp.Regexp) *CoerceStringSchema {
+	csc.Inner.Regex(regex)
 	return csc
 }
 
-func (csc *CoerceStringSchema) Includes(substr, errorMessage string) *CoerceStringSchema {
-	csc.Inner.Includes(substr, errorMessage)
+func (csc *CoerceStringSchema) Includes(substr string) *CoerceStringSchema {
+	csc.Inner.Includes(substr)
 	return csc
 }
 
-func (csc *CoerceStringSchema) StartsWith(prefix, errorMessage string) *CoerceStringSchema {
-	csc.Inner.StartsWith(prefix, errorMessage)
+func (csc *CoerceStringSchema) StartsWith(prefix string) *CoerceStringSchema {
+	csc.Inner.StartsWith(prefix)
 	return csc
 }
 
-func (csc *CoerceStringSchema) EndsWith(suffix, errorMessage string) *CoerceStringSchema {
-	csc.Inner.EndsWith(suffix, errorMessage)
+func (csc *CoerceStringSchema) EndsWith(suffix string) *CoerceStringSchema {
+	csc.Inner.EndsWith(suffix)
 	return csc
 }
 
-func (csc *CoerceStringSchema) Date(errorMessage string) *CoerceStringSchema {
-	csc.Inner.Date(errorMessage)
+func (csc *CoerceStringSchema) Date() *CoerceStringSchema {
+	csc.Inner.Date()
 	return csc
 }
 
-func (csc *CoerceStringSchema) Time(errorMessage string) *CoerceStringSchema {
-	csc.Inner.Time(errorMessage)
+func (csc *CoerceStringSchema) Time() *CoerceStringSchema {
+	csc.Inner.Time()
 	return csc
 }
 
-func (csc *CoerceStringSchema) IP(errorMessage string) *CoerceStringSchema {
-	csc.Inner.IP(errorMessage)
+func (csc *CoerceStringSchema) IP() *CoerceStringSchema {
+	csc.Inner.IP()
 	return csc
 }
 
-func (csc *CoerceStringSchema) CIDR(errorMessage string) *CoerceStringSchema {
-	csc.Inner.CIDR(errorMessage)
+func (csc *CoerceStringSchema) CIDR() *CoerceStringSchema {
+	csc.Inner.CIDR()
 	return csc
 }

@@ -30,35 +30,35 @@ func TestCoerceStringSchema_ParseTyped(t *testing.T) {
 
 func TestCoerceStringSchema_Min(t *testing.T) {
 	schema := NewCoerceStringSchema("im sad")
-	schema.Min(5, "error")
+	schema.Min(5)
 	result := schema.ParseTyped("12345")
 	assert.True(t, result.Success)
 }
 
 func TestCoerceStringSchema_Max(t *testing.T) {
 	schema := NewCoerceStringSchema("im sad")
-	schema.Max(5, "error")
+	schema.Max(5)
 	result := schema.ParseTyped("12345")
 	assert.True(t, result.Success)
 }
 
 func TestCoerceStringSchema_Length(t *testing.T) {
 	schema := NewCoerceStringSchema("im sad")
-	schema.Length(5, "error")
+	schema.Length(5)
 	result := schema.ParseTyped("12345")
 	assert.True(t, result.Success)
 }
 
 func TestCoerceStringSchema_Email(t *testing.T) {
 	schema := NewCoerceStringSchema("im sad")
-	schema.Email("error")
+	schema.Email()
 	result := schema.ParseTyped("test@example.com")
 	assert.True(t, result.Success)
 }
 
 func TestCoerceStringSchema_URL(t *testing.T) {
 	schema := NewCoerceStringSchema("im sad")
-	schema.URL("error")
+	schema.URL()
 	result := schema.ParseTyped("https://example.com")
 	assert.True(t, result.Success)
 }
@@ -66,56 +66,56 @@ func TestCoerceStringSchema_URL(t *testing.T) {
 func TestCoerceStringSchema_Regex(t *testing.T) {
 	schema := NewCoerceStringSchema("im sad")
 	regex := regexp.MustCompile(`^[a-z]+$`)
-	schema.Regex(regex, "error")
+	schema.Regex(regex)
 	result := schema.ParseTyped("test")
 	assert.True(t, result.Success)
 }
 
 func TestCoerceStringSchema_Includes(t *testing.T) {
 	schema := NewCoerceStringSchema("im sad")
-	schema.Includes("test", "error")
+	schema.Includes("test")
 	result := schema.ParseTyped("this is a test")
 	assert.True(t, result.Success)
 }
 
 func TestCoerceStringSchema_StartsWith(t *testing.T) {
 	schema := NewCoerceStringSchema("im sad")
-	schema.StartsWith("test", "error")
+	schema.StartsWith("test")
 	result := schema.ParseTyped("test123")
 	assert.True(t, result.Success)
 }
 
 func TestCoerceStringSchema_EndsWith(t *testing.T) {
 	schema := NewCoerceStringSchema("im sad")
-	schema.EndsWith("123", "error")
+	schema.EndsWith("123")
 	result := schema.ParseTyped("test123")
 	assert.True(t, result.Success)
 }
 
 func TestCoerceStringSchema_Date(t *testing.T) {
 	schema := NewCoerceStringSchema("im sad")
-	schema.Date("error")
+	schema.Date()
 	result := schema.ParseTyped("2023-10-10")
 	assert.True(t, result.Success)
 }
 
 func TestCoerceStringSchema_Time(t *testing.T) {
 	schema := NewCoerceStringSchema("im sad")
-	schema.Time("error")
+	schema.Time()
 	result := schema.ParseTyped("10:10:10")
 	assert.True(t, result.Success)
 }
 
 func TestCoerceStringSchema_IP(t *testing.T) {
 	schema := NewCoerceStringSchema("im sad")
-	schema.IP("error")
+	schema.IP()
 	result := schema.ParseTyped("192.168.0.1")
 	assert.True(t, result.Success)
 }
 
 func TestCoerceStringSchema_CIDR(t *testing.T) {
 	schema := NewCoerceStringSchema("im sad")
-	schema.CIDR("error")
+	schema.CIDR()
 	result := schema.ParseTyped("192.168.0.0/16")
 	assert.True(t, result.Success)
 }
