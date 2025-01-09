@@ -2,9 +2,7 @@
 
 ![Tests](https://github.com/abyanmajid/v/actions/workflows/tests.yml/badge.svg) [![codecov](https://codecov.io/gh/abyanmajid/v/branch/master/graph/badge.svg?token=PkJaofBVyv)](https://codecov.io/gh/abyanmajid/v/tree/master) [![Go Report](https://goreportcard.com/badge/abyanmajid/v)](https://goreportcard.com/report/abyanmajid/v) [![MIT License](https://img.shields.io/badge/license-GPL3-blue.svg)](https://github.com/abyanmajid/v/blob/master/LICENSE)
 
-[Documentation](#) 📦 | [Examples](#) 🌿 | [Go Package Reference](https://pkg.go.dev/github.com/abyanmajid/v) 📃
-
-A Golang port of the popular TypeScript schema validation toolkit, [Zod](https://github.com/colinhacks/zod), with a mostly identical API.
+Simple schema validation toolkit for Golang with Zod-like API.
 
 ## Usage
 
@@ -16,17 +14,36 @@ go get -u github.com/abyanmajid/v
 
 Start composing schemas, and use them to validate your data:
 
-```
-WIP
-```
+```go
+type Applicant struct {
+	Name         string    `json:"name"`
+	Email        string    `json:"email"`
+	LinkedIn     string    `json:"linkedin"`
+	University   string    `json:"university"`
+	WAM          int       `json:"wam"`
+	HasGraduated bool      `json:"has_graduated"`
+	Courseworks  []string  `json:"courseworks"`
+	Born         time.Time `json:"born"`
+}
 
-For more realistic use cases, `v` is particularly useful for extracting type-safe data from a possibly variable data source such as a JSON request payload in an HTTP handler:
+var unis = []string{"USYD", "UMELB", "UNSW"}
 
-```
-WIP.
-```
+func isValidApplicant(a *Applicant) bool {
+	name := v.String("Name").Min(1).Max(128).Parse(a.Name)
+	email := v.String("Email").Email().Parse(a.Email)
+	linkedIn := v.String("LinkedIn").URL().Parse(a.LinkedIn)
+	university := v.Enum("University", unis).Parse(a.University)
+	wam := v.Integer("WAM").Gte(0).Lte(100).Parse(a.WAM)
+	hasGraduated := v.Boolean("HasGraduated").Parse(a.HasGraduated)
+	courseworks := v.Array("Courseworks", v.String("Coursework").Schema).Parse(a.Courseworks)
+	born := v.Date("Born").Max(time.Now()).Parse(a.Born)
 
-For the complete API reference, please refer to our [documentation.](#)
+	return name.Success && email.Success &&
+		linkedIn.Success && university.Success &&
+		wam.Success && hasGraduated.Success &&
+		courseworks.Success && born.Success
+}
+```
 
 ## License
 
