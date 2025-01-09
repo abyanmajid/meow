@@ -5,12 +5,7 @@ import (
 	"reflect"
 
 	core "github.com/abyanmajid/v/internal"
-	"github.com/abyanmajid/v/internal/primitives"
 )
-
-type ArrayElementSchema[T primitives.Number] interface {
-	primitives.StringSchema | primitives.NumberSchema[T] | primitives.BooleanSchema | primitives.DateSchema | primitives.NilSchema | primitives.AnySchema | primitives.NeverSchema
-}
 
 type ArraySchema[T any] struct {
 	Schema *core.Schema[[]T]
