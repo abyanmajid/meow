@@ -9,7 +9,7 @@ Simple schema validation toolkit for Golang with Zod-like API.
 Add `v` to your Golang project:
 
 ```
-go get -u github.com/abyanmajid/v@v0.5.0
+go get -u github.com/abyanmajid/v@v0.6.0
 ```
 
 Start composing schemas, and use them to validate your data:
@@ -43,7 +43,7 @@ func isValidApplicant(a *Applicant) bool {
 }
 ```
 
-The `Result` struct also has other fields apart from `Success`, including:
+The `Result` struct also has other fields apart from `Ok`, including:
 
 - `Errors` (array of validation checks not passed)
 - `Value` (post-validation typesafe value, which is useful if your original data is of variable type e.g., `any`/`interface{}`)
