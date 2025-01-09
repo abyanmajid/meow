@@ -34,7 +34,7 @@ func TestNumberSchema_ParseTyped(t *testing.T) {
 }
 
 func TestNumberSchema_Gt(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").Gt(10, "Must be greater than 10")
+	schema := primitives.NewNumberSchema("im sad").Gt(10)
 
 	result := schema.ParseTyped(15)
 	assert.True(t, result.Success)
@@ -45,7 +45,7 @@ func TestNumberSchema_Gt(t *testing.T) {
 }
 
 func TestNumberSchema_Gte(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").Gte(10, "Must be greater than or equal to 10")
+	schema := primitives.NewNumberSchema("im sad").Gte(10)
 
 	result := schema.ParseTyped(10)
 	assert.True(t, result.Success)
@@ -56,29 +56,29 @@ func TestNumberSchema_Gte(t *testing.T) {
 }
 
 func TestNumberSchema_Lt(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").Lt(10, "Must be less than 10")
+	schema := primitives.NewNumberSchema("im sad").Lt(10)
 
 	result := schema.ParseTyped(5)
 	assert.True(t, result.Success)
 
 	result = schema.ParseTyped(15)
 	assert.False(t, result.Success)
-	assert.Equal(t, "Must be less than 10", result.Errors[0])
+	assert.Equal(t, "Must be smaller than 10", result.Errors[0])
 }
 
 func TestNumberSchema_Lte(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").Lte(10, "Must be less than or equal to 10")
+	schema := primitives.NewNumberSchema("im sad").Lte(10)
 
 	result := schema.ParseTyped(10)
 	assert.True(t, result.Success)
 
 	result = schema.ParseTyped(15)
 	assert.False(t, result.Success)
-	assert.Equal(t, "Must be less than or equal to 10", result.Errors[0])
+	assert.Equal(t, "Must be smaller than or equal to 10", result.Errors[0])
 }
 
 func TestNumberSchema_Int(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").Int("Must be an integer")
+	schema := primitives.NewNumberSchema("im sad").Int()
 
 	result := schema.ParseTyped(10)
 	assert.True(t, result.Success)
@@ -89,51 +89,51 @@ func TestNumberSchema_Int(t *testing.T) {
 }
 
 func TestNumberSchema_Positive(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").Positive("Must be positive")
+	schema := primitives.NewNumberSchema("im sad").Positive()
 
 	result := schema.ParseTyped(10)
 	assert.True(t, result.Success)
 
 	result = schema.ParseTyped(-10)
 	assert.False(t, result.Success)
-	assert.Equal(t, "Must be positive", result.Errors[0])
+	assert.Equal(t, "Must be a positive number", result.Errors[0])
 }
 
 func TestNumberSchema_NonNegative(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").NonNegative("Must be non-negative")
+	schema := primitives.NewNumberSchema("im sad").NonNegative()
 
 	result := schema.ParseTyped(10)
 	assert.True(t, result.Success)
 
 	result = schema.ParseTyped(-10)
 	assert.False(t, result.Success)
-	assert.Equal(t, "Must be non-negative", result.Errors[0])
+	assert.Equal(t, "Must be a non-negative number", result.Errors[0])
 }
 
 func TestNumberSchema_Negative(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").Negative("Must be negative")
+	schema := primitives.NewNumberSchema("im sad").Negative()
 
 	result := schema.ParseTyped(-10)
 	assert.True(t, result.Success)
 
 	result = schema.ParseTyped(10)
 	assert.False(t, result.Success)
-	assert.Equal(t, "Must be negative", result.Errors[0])
+	assert.Equal(t, "Must be a negative number", result.Errors[0])
 }
 
 func TestNumberSchema_NonPositive(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").NonPositive("Must be non-positive")
+	schema := primitives.NewNumberSchema("im sad").NonPositive()
 
 	result := schema.ParseTyped(-10)
 	assert.True(t, result.Success)
 
 	result = schema.ParseTyped(10)
 	assert.False(t, result.Success)
-	assert.Equal(t, "Must be non-positive", result.Errors[0])
+	assert.Equal(t, "Must be a non-positive number", result.Errors[0])
 }
 
 func TestNumberSchema_MultipleOf(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").MultipleOf(5, "Must be a multiple of 5")
+	schema := primitives.NewNumberSchema("im sad").MultipleOf(5)
 
 	result := schema.ParseTyped(10)
 	assert.True(t, result.Success)
@@ -144,12 +144,12 @@ func TestNumberSchema_MultipleOf(t *testing.T) {
 }
 
 func TestNumberSchema_Finite(t *testing.T) {
-	schema := primitives.NewNumberSchema("im sad").Finite("Must be finite")
+	schema := primitives.NewNumberSchema("im sad").Finite()
 
 	result := schema.ParseTyped(10)
 	assert.True(t, result.Success)
 
 	result = schema.ParseTyped(math.Inf(1))
 	assert.False(t, result.Success)
-	assert.Equal(t, "Must be finite", result.Errors[0])
+	assert.Equal(t, "Must be a finite number", result.Errors[0])
 }

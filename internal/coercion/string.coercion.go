@@ -20,7 +20,7 @@ func NewCoerceStringSchema(path string) *CoerceStringSchema {
 
 func (csc *CoerceStringSchema) Parse(value interface{}) *core.Result[string] {
 	coercedValue := fmt.Sprint(value)
-	return csc.Inner.ParseTyped(coercedValue)
+	return csc.ParseTyped(coercedValue)
 }
 
 func (csc *CoerceStringSchema) ParseTyped(value string) *core.Result[string] {

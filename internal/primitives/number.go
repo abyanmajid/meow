@@ -1,6 +1,7 @@
 package primitives
 
 import (
+	"fmt"
 	"math"
 
 	core "github.com/abyanmajid/z/internal"
@@ -32,9 +33,10 @@ func (nc *NumberSchema) ParseTyped(value float64) *core.Result[float64] {
 	return nc.Base.ParseGeneric(value)
 }
 
-func (nc *NumberSchema) Gt(lowerBound float64, errorMessage string) *NumberSchema {
+func (nc *NumberSchema) Gt(lowerBound float64) *NumberSchema {
 	nc.Base.AddRule(func(value float64) *core.Result[float64] {
 		if value <= lowerBound {
+			errorMessage := fmt.Sprintf("Must be greater than %v", lowerBound)
 			return nc.Base.NewErrorResult(errorMessage)
 		}
 		return nc.Base.NewSuccessResult()
@@ -42,9 +44,10 @@ func (nc *NumberSchema) Gt(lowerBound float64, errorMessage string) *NumberSchem
 	return nc
 }
 
-func (nc *NumberSchema) Gte(lowerBound float64, errorMessage string) *NumberSchema {
+func (nc *NumberSchema) Gte(lowerBound float64) *NumberSchema {
 	nc.Base.AddRule(func(value float64) *core.Result[float64] {
 		if value < lowerBound {
+			errorMessage := fmt.Sprintf("Must be greater than or equal to %v", lowerBound)
 			return nc.Base.NewErrorResult(errorMessage)
 		}
 		return nc.Base.NewSuccessResult()
@@ -52,9 +55,10 @@ func (nc *NumberSchema) Gte(lowerBound float64, errorMessage string) *NumberSche
 	return nc
 }
 
-func (nc *NumberSchema) Lt(upperBound float64, errorMessage string) *NumberSchema {
+func (nc *NumberSchema) Lt(upperBound float64) *NumberSchema {
 	nc.Base.AddRule(func(value float64) *core.Result[float64] {
 		if value >= upperBound {
+			errorMessage := fmt.Sprintf("Must be smaller than %v", upperBound)
 			return nc.Base.NewErrorResult(errorMessage)
 		}
 		return nc.Base.NewSuccessResult()
@@ -62,9 +66,10 @@ func (nc *NumberSchema) Lt(upperBound float64, errorMessage string) *NumberSchem
 	return nc
 }
 
-func (nc *NumberSchema) Lte(upperBound float64, errorMessage string) *NumberSchema {
+func (nc *NumberSchema) Lte(upperBound float64) *NumberSchema {
 	nc.Base.AddRule(func(value float64) *core.Result[float64] {
 		if value > upperBound {
+			errorMessage := fmt.Sprintf("Must be smaller than or equal to %v", upperBound)
 			return nc.Base.NewErrorResult(errorMessage)
 		}
 		return nc.Base.NewSuccessResult()
@@ -72,59 +77,60 @@ func (nc *NumberSchema) Lte(upperBound float64, errorMessage string) *NumberSche
 	return nc
 }
 
-func (nc *NumberSchema) Int(errorMessage string) *NumberSchema {
+func (nc *NumberSchema) Int() *NumberSchema {
 	nc.Base.AddRule(func(value float64) *core.Result[float64] {
 		if math.Floor(value) != value {
-			return nc.Base.NewErrorResult(errorMessage)
+			return nc.Base.NewErrorResult("Must be an integer")
 		}
 		return nc.Base.NewSuccessResult()
 	})
 	return nc
 }
 
-func (nc *NumberSchema) Positive(errorMessage string) *NumberSchema {
+func (nc *NumberSchema) Positive() *NumberSchema {
 	nc.Base.AddRule(func(value float64) *core.Result[float64] {
 		if value <= 0 {
-			return nc.Base.NewErrorResult(errorMessage)
+			return nc.Base.NewErrorResult("Must be a positive number")
 		}
 		return nc.Base.NewSuccessResult()
 	})
 	return nc
 }
 
-func (nc *NumberSchema) NonNegative(errorMessage string) *NumberSchema {
+func (nc *NumberSchema) NonNegative() *NumberSchema {
 	nc.Base.AddRule(func(value float64) *core.Result[float64] {
 		if value < 0 {
-			return nc.Base.NewErrorResult(errorMessage)
+			return nc.Base.NewErrorResult("Must be a non-negative number")
 		}
 		return nc.Base.NewSuccessResult()
 	})
 	return nc
 }
 
-func (nc *NumberSchema) Negative(errorMessage string) *NumberSchema {
+func (nc *NumberSchema) Negative() *NumberSchema {
 	nc.Base.AddRule(func(value float64) *core.Result[float64] {
 		if value >= 0 {
-			return nc.Base.NewErrorResult(errorMessage)
+			return nc.Base.NewErrorResult("Must be a negative number")
 		}
 		return nc.Base.NewSuccessResult()
 	})
 	return nc
 }
 
-func (nc *NumberSchema) NonPositive(errorMessage string) *NumberSchema {
+func (nc *NumberSchema) NonPositive() *NumberSchema {
 	nc.Base.AddRule(func(value float64) *core.Result[float64] {
 		if value > 0 {
-			return nc.Base.NewErrorResult(errorMessage)
+			return nc.Base.NewErrorResult("Must be a non-positive number")
 		}
 		return nc.Base.NewSuccessResult()
 	})
 	return nc
 }
 
-func (nc *NumberSchema) MultipleOf(step float64, errorMessage string) *NumberSchema {
+func (nc *NumberSchema) MultipleOf(step float64) *NumberSchema {
 	nc.Base.AddRule(func(value float64) *core.Result[float64] {
 		if math.Mod(value, step) != 0 {
+			errorMessage := fmt.Sprintf("Must be a multiple of %v", step)
 			return nc.Base.NewErrorResult(errorMessage)
 		}
 		return nc.Base.NewSuccessResult()
@@ -132,10 +138,10 @@ func (nc *NumberSchema) MultipleOf(step float64, errorMessage string) *NumberSch
 	return nc
 }
 
-func (nc *NumberSchema) Finite(errorMessage string) *NumberSchema {
+func (nc *NumberSchema) Finite() *NumberSchema {
 	nc.Base.AddRule(func(value float64) *core.Result[float64] {
 		if math.IsInf(value, 0) {
-			return nc.Base.NewErrorResult(errorMessage)
+			return nc.Base.NewErrorResult("Must be a finite number")
 		}
 		return nc.Base.NewSuccessResult()
 	})
