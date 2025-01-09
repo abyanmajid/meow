@@ -9,13 +9,13 @@ type Result[T any] struct {
 
 type Rule[T any] func(T) *Result[T]
 
-type Coerce[T any] struct {
-	Inner *Schema[T]
-}
-
 type Schema[T any] struct {
 	Path  string
 	Rules []Rule[T]
+}
+
+type CoerceSchema[T any] struct {
+	Inner Schema[T]
 }
 
 func (s *Schema[T]) AddRule(rule Rule[T]) {
