@@ -1,4 +1,4 @@
-package x
+package v
 
 import (
 	core "github.com/abyanmajid/v/internal"
